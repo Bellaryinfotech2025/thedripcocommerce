@@ -1,0 +1,84 @@
+// components/Sidebar.js
+import React from 'react';
+import { FaTruck, FaChevronRight, FaChevronLeft, FaUser } from 'react-icons/fa';
+import logo from '../assets/logo.jpg';
+
+const Sidebar = ({ closeSidebar }) => {
+  return (
+    <div className="sidebar-overlay">
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <div className="back-btn" onClick={closeSidebar}>
+            <FaChevronLeft />
+          </div>
+          <div className="sidebar-logo">
+            <img src={logo} alt="The goat" />
+          </div>
+        </div>
+
+        <div className="sidebar-welcome">
+          <div className="user-icon">
+            <FaUser />
+          </div>
+          <div className="welcome-text">
+            <h3>WELCOME to THE DripCo</h3>
+            <p>Enjoy a tailored shopping experience.</p>
+          </div>
+        </div>
+
+        <button className="login-button">LOG IN / SIGN UP</button>
+
+        <div className="express-delivery-banner">
+          <FaTruck className="delivery-icon" />
+          <div className="delivery-text">
+            <h3>SHOPNOW</h3>
+           
+          </div>
+        </div>
+
+        {/* <div className="delivery-location">
+          <p>DELIVERING TO <span className="add-location">Add delivery location</span></p>
+        </div> */}
+
+        <ul className="sidebar-menu">
+          <li className="menu-item">
+            <span>NEW ARRIVALS</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          <li className="menu-item">
+            <span>MEN</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          <li className="menu-item">
+            <span>WOMEN</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          <li className="menu-item">
+            <span>GIRLS</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          <li className="menu-item">
+            <span>BOYS</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          <li className="menu-item">
+            <span>SPECIAL SIZES</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          {/* <li className="menu-item">
+            <span>WEDDING FEST</span>
+          </li>
+          <li className="menu-item">
+            <span>WINTER RETREAT</span>
+          </li> */}
+          <li className="menu-item">
+            <span>SALE</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
