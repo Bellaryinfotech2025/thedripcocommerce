@@ -48,12 +48,7 @@ const Navbar = ({ toggleSidebar }) => {
           </button>
         </div>
 
-        <div className="delivery-location">
-          <span>Delivering to</span>
-          <button className="add-location-btn">
-            <FaMapMarkerAlt className="icon" /> Add delivery location
-          </button>
-        </div>
+         
 
         <div className="top-nav-right">
           <button className="top-nav-btn">

@@ -6,7 +6,6 @@
   transform: translateY(50px);
   transition: opacity 0.8s ease, transform 0.8s ease;
   background-color: #bcbcbc;
-  
 }
 
 .product-grid-container.visible {
@@ -20,7 +19,6 @@
   margin-bottom: 60px;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 20px;
-   
 }
 
 .tab-button {
@@ -166,8 +164,10 @@
   }
 }
 
-@media (max-width: 480px) {
+/* ✅ Updated mobile layout: show 2 products side by side */
+@media (max-width: 481px) {
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }
