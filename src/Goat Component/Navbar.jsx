@@ -98,8 +98,8 @@ const Navbar = ({ toggleSidebar }) => {
         </nav>
 
         <div className="search-container">
-          <FaSearch className="search-icon" />
-          <input type="text" placeholder="Search Your Happiness" className="search-input" />
+           
+          
         </div>
 
         <div className="express-delivery">
