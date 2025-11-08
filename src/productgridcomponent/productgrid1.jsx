@@ -1,17 +1,17 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import "../productgridcomponent/productlayout.css"
 import image1 from "../assets/product1.jpg"
 import image2 from "../assets/product2.jpg"
 import image3 from "../assets/product9.png"
 import image4 from "../assets/product4.jpg"
+import { Link, useNavigate } from "react-router-dom"
 
 const Productlayout = () => {
   const [activeTab, setActiveTab] = useState("PANT'S")
   const [isVisible, setIsVisible] = useState(false)
+  const navigate = useNavigate()
 
-  const tabs = ["TSHIRT'S"]
+  const tabs = ["PANT'S", "TSHIRT'S"]
 
   const products = [
     {
@@ -56,8 +56,18 @@ const Productlayout = () => {
     setIsVisible(true)
   }, [])
 
+  const filteredProducts = products.filter(p => p.category === activeTab)
+
+  // THIS IS THE FIX – SCROLL TO TOP ON CLICK
+  const handleProductClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    navigate("/products")
+  }
+
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
+      
+      {/* Tabs */}
       <div className="tabs-container">
         {tabs.map((tab) => (
           <button
@@ -70,28 +80,38 @@ const Productlayout = () => {
         ))}
       </div>
 
+      {/* Products Grid - FULL CARD CLICKABLE + SCROLL TO TOP */}
       <div className="products-grid">
-        {products.map((product, index) => (
+        {filteredProducts.map((product, index) => (
           <div
             key={product.id}
-            className="product-card"
-            style={{ transitionDelay: `${index * 0.1}s` }}
+            className="product-card-wrapper"
+            onClick={handleProductClick}
+            style={{ transitionDelay: `${index * 0.15}s` }}
           >
-            <div className="product-image-wrapper">
-              {product.discount && (
-                <div className="discount-badge">SAVE {product.discount}%</div>
-              )}
-              <img
-                src={product.image || "/placeholder.svg"}
-                alt={product.name}
-                className="product-image"
-              />
-            </div>
-            <div className="product-info">
-              <h3 className="product-name">{product.name}</h3>
-              <div className="product-prices">
-                <span className="current-price">RS. {product.currentPrice}</span>
-                <span className="original-price">RS. {product.originalPrice}</span>
+            <div className="product-card">
+              <div className="product-image-wrapper">
+                {product.discount && (
+                  <div className="discount-badge">
+                    SAVE {product.discount}%
+                  </div>
+                )}
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="product-image"
+                />
+                <div className="quick-view-overlay">
+                  <span>QUICK VIEW</span>
+                </div>
+              </div>
+
+              <div className="product-info">
+                <h3 className="product-name">{product.name}</h3>
+                <div className="product-prices">
+                  <span className="current-price">RS. {product.currentPrice}</span>
+                  <span className="original-price">RS. {product.originalPrice}</span>
+                </div>
               </div>
             </div>
           </div>
