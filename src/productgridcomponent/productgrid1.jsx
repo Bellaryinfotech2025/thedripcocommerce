@@ -4,7 +4,7 @@ import image1 from "../assets/product1.jpg"
 import image2 from "../assets/product2.jpg"
 import image3 from "../assets/product9.png"
 import image4 from "../assets/product4.jpg"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Productlayout = () => {
   const [activeTab, setActiveTab] = useState("PANT'S")
@@ -58,10 +58,10 @@ const Productlayout = () => {
 
   const filteredProducts = products.filter(p => p.category === activeTab)
 
-  // THIS IS THE FIX – SCROLL TO TOP ON CLICK
-  const handleProductClick = () => {
+  // Scroll and navigate based on product ID
+  const handleProductClick = (id) => {
     window.scrollTo({ top: 0, behavior: "smooth" })
-    navigate("/products")
+    navigate(`/products/${id}`)
   }
 
   return (
@@ -80,13 +80,13 @@ const Productlayout = () => {
         ))}
       </div>
 
-      {/* Products Grid - FULL CARD CLICKABLE + SCROLL TO TOP */}
+      {/* Products Grid */}
       <div className="products-grid">
         {filteredProducts.map((product, index) => (
           <div
             key={product.id}
             className="product-card-wrapper"
-            onClick={handleProductClick}
+            onClick={() => handleProductClick(product.id)}
             style={{ transitionDelay: `${index * 0.15}s` }}
           >
             <div className="product-card">

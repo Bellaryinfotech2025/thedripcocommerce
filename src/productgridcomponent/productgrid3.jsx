@@ -1,21 +1,23 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import "../productgridcomponent/productlayout.css"
-import image1 from "../assets/product9.png"
-import image2 from "../assets/product10.png"
-import image3 from "../assets/product11.png"
-import image4 from "../assets/product12.png"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../productgridcomponent/productlayout.css";
+import image1 from "../assets/product15.png";
+import image2 from "../assets/product13.png";
+import image3 from "../assets/product16.png";
+import image4 from "../assets/product17.png";
 
 const Productlayout3 = () => {
-  const [activeTab, setActiveTab] = useState("PANT'S")
-  const [isVisible, setIsVisible] = useState(false)
+  const [activeTab, setActiveTab] = useState("PANT'S");
+  const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const tabs = ["TSHIRT'S"]
+  const tabs = ["TSHIRT'S"];
 
   const products = [
     {
-      id: 1,
+      id: 9,
       name: "SAIYAN BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
       currentPrice: "699.00",
       originalPrice: "1,319.00",
@@ -24,7 +26,7 @@ const Productlayout3 = () => {
       category: "PANT'S",
     },
     {
-      id: 2,
+      id: 10,
       name: "TYPHOON BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
       currentPrice: "699.00",
       originalPrice: "1,319.00",
@@ -33,7 +35,7 @@ const Productlayout3 = () => {
       category: "PANT'S",
     },
     {
-      id: 3,
+      id: 11,
       name: "CARNATION BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
       currentPrice: "699.00",
       originalPrice: "1,319.00",
@@ -42,7 +44,7 @@ const Productlayout3 = () => {
       category: "PANT'S",
     },
     {
-      id: 4,
+      id: 12,
       name: "MUTATION UNISEX STRAIGHT FIT BAGGY PANTS",
       currentPrice: "699.00",
       originalPrice: "1,319.00",
@@ -50,11 +52,11 @@ const Productlayout3 = () => {
       image: image4,
       category: "PANT'S",
     },
-  ]
+  ];
 
   useEffect(() => {
-    setIsVisible(true)
-  }, [])
+    setIsVisible(true);
+  }, []);
 
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
@@ -76,6 +78,7 @@ const Productlayout3 = () => {
             key={product.id}
             className="product-card"
             style={{ transitionDelay: `${index * 0.1}s` }}
+            onClick={() => navigate(`/products/${product.id}`)} // 👈 navigate to dynamic route
           >
             <div className="product-image-wrapper">
               {product.discount && (
@@ -98,7 +101,7 @@ const Productlayout3 = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Productlayout3;
