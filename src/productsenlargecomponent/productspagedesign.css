@@ -786,9 +786,19 @@
 @media (max-width: 481px) {
   .tuple_nation_side_by_side,
   .tuple_nation_lifestyle_row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr; /* ✅ Keep two columns */
+    gap: 0.5rem; /* Adjust spacing for smaller screens */
   }
+
   .tuple_nation_specs_grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Specs can still stack */
+  }
+
+  /* Optional: make images smaller to fit better */
+  .tuple_nation_product_image_large_bear,
+  .tuple_nation_product_image_medium_giraffe,
+  .tuple_nation_product_image_triple_antelope {
+    max-height: 200px;
   }
 }
+
