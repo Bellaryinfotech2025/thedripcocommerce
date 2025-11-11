@@ -647,7 +647,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 481px) {
   .tuple_nation_section_one_container,
   .tuple_nation_section_two_container,
   .tuple_nation_section_three_container {
@@ -783,7 +783,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 481px) {
   .tuple_nation_side_by_side,
   .tuple_nation_lifestyle_row {
     grid-template-columns: 1fr;
