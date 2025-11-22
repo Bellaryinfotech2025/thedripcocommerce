@@ -1,5 +1,7 @@
  /* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://unpkg.com/@phosphor-icons/web@2.1.0/src/css/phosphor.css');
+
 
 * {
   margin: 0;
@@ -611,4 +613,334 @@ main {
   .mobile-cart-btn {
     font-size: 18px;
   }
+}
+/* src/Goat Css/navbar.css */
+
+/* Your existing CSS remains 100% unchanged – just add this at the bottom */
+
+.bag-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bag-popup {
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 24px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.5s ease-out;
+}
+
+.bag-header {
+  padding: 20px;
+  background: #000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bag-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 36px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bag-items {
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+.empty-bag {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+}
+
+.empty-bag svg {
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.bag-item {
+  display: flex;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.item-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-name {
+  margin: 0 0 6px;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.item-size {
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.qty-controls button {
+  width: 44px;
+  height: 44px;
+  border: 2.5px solid #000;
+  background: white;
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-controls span {
+  font-weight: bold;
+  font-size: 18px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.item-price {
+  margin-left: auto;
+  font-weight: bold;
+  font-size: 17px;
+  color: #000;
+}
+
+.remove-btn {
+  color: #ff4444;
+  background: none;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.bag-footer {
+  padding: 24px;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #000;
+}
+
+.checkout-btn {
+  width: 100%;
+  background: #000;
+  color: white;
+  padding: 18px;
+  border: none;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.checkout-btn:hover {
+  background: #111;
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Mobile Fixes */
+@media (max-width: 480px) {
+  .bag-popup {
+    border-radius: 20px;
+    max-height: 95vh;
+  }
+  .bag-header {
+    padding: 16px;
+  }
+  .bag-header h2 {
+    font-size: 20px;
+  }
+  .item-img {
+    width: 80px;
+    height: 80px;
+  }
+  .qty-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+
+
+ /* ====== LOGIN DROPDOWN WRAPPER ====== */
+.login-dropdown-wrapper {
+  position: fixed;
+  top: 65px;
+  right: 25px;
+  z-index: 9999;
+}
+
+/* ====== POPUP CONTAINER ====== */
+.login-dropdown-popup {
+  width: 330px;
+  background: #faf5ef; /* soft luxury cream */
+  border-radius: 16px;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.18);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+  animation: dropdownSlide 0.28s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ====== POPUP CONTENT ====== */
+.login-dropdown-content {
+  padding: 25px 22px;
+  text-align: center;
+}
+
+/* TITLE */
+.login-dropdown-content h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a2a2a;
+  letter-spacing: 0.5px;
+}
+
+/* SUBTEXT */
+.login-dropdown-content p {
+  margin: 6px 0 20px 0;
+  color: #6a6a6a;
+  font-size: 13px;
+}
+
+/* ====== SIGNUP BUTTON ====== */
+.login-signup-btn {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: 0.3s ease;
+}
+
+.login-signup-btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* ====== LINKS ====== */
+.login-links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* BUTTON ITEM */
+.login-link-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #2b2b2b;
+  cursor: pointer;
+  padding: 10px 8px;
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
+
+/* HOVER EFFECT */
+.login-link-item:hover {
+  background: rgba(0,0,0,0.05);
+  transform: translateX(4px);
+}
+
+/* ICONS */
+.login-icon {
+  font-size: 18px;
+  min-width: 24px;
+  color: #1a1a1a;
+  transition: color 0.3s;
+}
+
+.login-link-item:hover .login-icon {
+  color: #000;
+}
+
+.designcolordrop{
+  background: #FFFDD0;
 }

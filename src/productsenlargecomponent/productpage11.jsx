@@ -1,17 +1,39 @@
-// src/components/ProductPage.jsx
-import { useState } from "react";
+// src/components/ProductPage11.jsx
+import { useState, useEffect, useRef } from "react";
 import "../productsenlargecomponent/productspagedesign.css";
 import image1 from "../assets/product17.png";
-import { CiShoppingCart, CiShare2 } from "react-icons/ci";
+import { CiShoppingCart } from "react-icons/ci";
 import { FaTruck, FaSync, FaStore } from "react-icons/fa";
 import DripLoginPopup from "../usercredentialscomponent/loginpopup";
 import ReutrnsCode from '../returnscomponent/returnscode';
 import { IoIosShareAlt } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const ProductPage11 = () => {
   const [selectedSize, setSelectedSize] = useState("XL");
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showBagPopup, setShowBagPopup] = useState(false);
+  const [showSizeToast, setShowSizeToast] = useState(false);
+  const [showMobilePopup, setShowMobilePopup] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [bagItems, setBagItems] = useState([]);
+
+  const navigate = useNavigate();
+  const { cart = [], addToCart, removeFromCart, updateQuantity } = useCart();
+  const prevCartRef = useRef([]);
+
+  // Sync cart → bagItems safely
+  useEffect(() => {
+    if (!Array.isArray(cart)) return;
+
+    const hasChanged = JSON.stringify(cart) !== JSON.stringify(prevCartRef.current);
+    if (hasChanged) {
+      setBagItems(cart.map(item => ({ ...item, qty: item.quantity || 1 })));
+      prevCartRef.current = cart;
+    }
+  }, [cart]);
 
   const shareOnWhatsApp = () => {
     const url = encodeURIComponent("https://dripco.store");
@@ -19,11 +41,47 @@ const ProductPage11 = () => {
     window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
   };
 
+  // FIXED: Only alert — NO BAG POPUP
+  const handleGoToBag = () => {
+    if (!selectedSize) {
+      setShowSizeToast(true);
+      setTimeout(() => setShowSizeToast(false), 3000);
+      return;
+    }
+
+    const product = {
+      id: "product-11",
+      name: "Men Black Textured Crew Neck T-Shirt",
+      price: 1779,
+      size: selectedSize,
+      image: image1,
+      quantity: 1
+    };
+
+    addToCart(product);
+    alert(`Added to bag! Size: ${selectedSize}`);
+  };
+
+  const handleProceedToCheckout = () => {
+    setShowBagPopup(false);
+    setShowMobilePopup(true);
+  };
+
+  const handleMobileSubmit = () => {
+    if (mobileNumber.length === 10 && /^\d+$/.test(mobileNumber)) {
+      localStorage.setItem("dripco_user_mobile", mobileNumber);
+      localStorage.setItem("dripco_bag", JSON.stringify(bagItems));
+      navigate("/checkout");
+    } else {
+      alert("Please enter a valid 10-digit mobile number");
+    }
+  };
+
   return (
     <>
       <div className="tuple_nation_product_wrapper">
 
-        {/* ========== HERO + PURCHASE ========== */}
+        {/* HERO + PURCHASE */}
         <section className="tuple_nation_section_three_container">
           <div className="tuple_nation_images_grid_triple_stag">
             <div className="tuple_nation_lifestyle_row">
@@ -100,14 +158,14 @@ const ProductPage11 = () => {
             </button>
 
             <div className="tuple_nation_action_buttons_tanager">
-              <button className="tuple_nation_bag_btn_oriole">
+              <button className="tuple_nation_bag_btn_oriole" onClick={handleGoToBag}>
                 <CiShoppingCart size={20} /> GO TO BAG
               </button>
             </div>
           </div>
         </section>
 
-        {/* ========== DETAILED VIEWS ========== */}
+        {/* DETAILED VIEWS */}
         <section className="tuple_nation_section_one_container">
           <div className="tuple_nation_images_grid_left">
             <div className="tuple_nation_side_by_side">
@@ -141,7 +199,7 @@ const ProductPage11 = () => {
           </div>
         </section>
 
-        {/* ========== BACK VIEWS + DELIVERY ========== */}
+        {/* BACK VIEWS + DELIVERY */}
         <section className="tuple_nation_section_two_container">
           <div className="tuple_nation_images_grid_right_monkey">
             <div className="tuple_nation_side_by_side">
@@ -153,7 +211,6 @@ const ProductPage11 = () => {
           <div className="tuple_nation_promo_section_fox">
             <div className="tuple_nation_delivery_section_owl">
               <h3 className="tuple_nation_delivery_title_raven">DELIVERY OPTIONS</h3>
-
               <div className="tuple_nation_delivery_feature_swan">
                 <FaTruck size={22} color="#0066cc" />
                 <div>
@@ -161,14 +218,12 @@ const ProductPage11 = () => {
                   <div className="tuple_nation_feature_desc_unicorn">Easy exchange available</div>
                 </div>
               </div>
-
               <div className="tuple_nation_delivery_feature_swan">
                 <FaSync size={20} color="#0066cc" />
                 <div>
                   <div className="tuple_nation_feature_label_dragon">15 DAYS FREE RETURN & EXCHANGE*</div>
                 </div>
               </div>
-
               <div className="tuple_nation_delivery_feature_swan">
                 <FaStore size={20} color="#0066cc" />
                 <div>
@@ -187,12 +242,119 @@ const ProductPage11 = () => {
           </div>
         </section>
 
-        {/* ========== RETURNS COMPONENT ========== */}
         <ReutrnsCode />
       </div>
 
-      {/* ========== DRIPCO LOGIN POPUP ========== */}
+      {/* LOGIN POPUP */}
       {showLoginPopup && <DripLoginPopup onClose={() => setShowLoginPopup(false)} />}
+
+      {/* SIZE TOAST */}
+      {showSizeToast && (
+        <div style={{
+          position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
+          background: '#ff4d4f', color: 'white', padding: '14px 28px', borderRadius: '50px',
+          fontWeight: 'bold', zIndex: 9999, boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+        }}>
+          Please select a size first!
+        </div>
+      )}
+
+      {/* BAG POPUP (Only opens manually) */}
+      {showBagPopup && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9998 }}
+          onClick={() => setShowBagPopup(false)}>
+          <div style={{ background: 'white', width: '90%', maxWidth: '480px', borderRadius: '16px', padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}
+            onClick={e => e.stopPropagation()}>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2 style={{ margin: 0 }}>Your Bag ({bagItems.reduce((s, i) => s + i.qty, 0)})</h2>
+              <button onClick={() => setShowBagPopup(false)} style={{ fontSize: '28px', background: 'none', border: 'none' }}>×</button>
+            </div>
+
+            {bagItems.length === 0 ? (
+              <p style={{ textAlign: 'center', color: '#999' }}>Your bag is empty</p>
+            ) : (
+              bagItems.map((item) => (
+                <div key={`${item.id}-${item.size}`} style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #eee' }}>
+                  <img src={item.image} alt="product" style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '8px' }} />
+                  <div style={{ flex: 1 }}>
+                    <p style={{ margin: '0 0 4px', fontWeight: 'bold', fontSize: '14px' }}>{item.name}</p>
+                    <p style={{ margin: 0, color: '#666' }}>Size: <strong>{item.size}</strong></p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px' }}>
+                      <button
+                        style={{ width: '32px', height: '32px', border: '1px solid #ddd', background: '#fff', borderRadius: '4px' }}
+                        onClick={() => updateQuantity(item.id, Math.max(1, item.qty - 1))}
+                      >−</button>
+                      <span style={{ fontWeight: 'bold', minWidth: '24px', textAlign: 'center' }}>{item.qty}</span>
+                      <button
+                        style={{ width: '32px', height: '32px', border: '1px solid #ddd', background: '#fff', borderRadius: '4px' }}
+                        onClick={() => updateQuantity(item.id, item.qty + 1)}
+                      >+</button>
+                      <span style={{ marginLeft: 'auto', fontWeight: 'bold' }}>₹{(item.price * item.qty).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <button
+                    style={{ color: '#ff4d4f', background: 'none', border: 'none', fontSize: '14px' }}
+                    onClick={() => removeFromCart(item.id)}
+                  >Remove</button>
+                </div>
+              ))
+            )}
+
+            <button
+              style={{
+                width: '100%', background: '#000', color: 'white', padding: '16px',
+                border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', marginTop: '20px'
+              }}
+              onClick={handleProceedToCheckout}
+            >
+              PROCEED TO CHECKOUT
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE POPUP */}
+      {showMobilePopup && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999 }}>
+          <div style={{ background: 'white', width: '90%', maxWidth: '400px', borderRadius: '16px', padding: '30px', textAlign: 'center' }}>
+            <h2 style={{ margin: '0 0 20px', fontSize: '20px' }}>Enter Mobile Number</h2>
+            <input
+              type="text"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+              placeholder="Enter 10-digit number"
+              style={{
+                width: '100%', padding: '14px', fontSize: '16px', border: '2px solid #ddd',
+                borderRadius: '8px', textAlign: 'center', letterSpacing: '2px'
+              }}
+              maxLength="10"
+              autoFocus
+            />
+            <p style={{ margin: '10px 0', color: '#666', fontSize: '12px' }}>
+              {mobileNumber.length}/10 digits
+            </p>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                onClick={() => { setShowMobilePopup(false); setMobileNumber(""); }}
+                style={{ flex: 1, padding: '12px', background: '#eee', border: 'none', borderRadius: '8px' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleMobileSubmit}
+                style={{
+                  flex: 1, padding: '12px', background: mobileNumber.length === 10 ? '#000' : '#ccc',
+                  color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold'
+                }}
+                disabled={mobileNumber.length !== 10}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

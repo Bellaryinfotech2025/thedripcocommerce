@@ -2,6 +2,7 @@
 import React from 'react';
 import { FaTruck, FaChevronRight, FaChevronLeft, FaUser } from 'react-icons/fa';
 import logo from '../assets/logo.jpg';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ closeSidebar }) => {
   return (
@@ -41,6 +42,12 @@ const Sidebar = ({ closeSidebar }) => {
         </div> */}
 
         <ul className="sidebar-menu">
+          <Link to="/myaccount" style={{textDecoration:'none'}}>
+          <li className="menu-item">
+            <span>My Account</span>
+            <FaChevronRight className="menu-icon" />
+          </li>
+          </Link>
           <li className="menu-item">
             <span>NEW ARRIVALS</span>
             <FaChevronRight className="menu-icon" />
@@ -61,20 +68,9 @@ const Sidebar = ({ closeSidebar }) => {
             <span>BOYS</span>
             <FaChevronRight className="menu-icon" />
           </li>
-          <li className="menu-item">
-            <span>SPECIAL SIZES</span>
-            <FaChevronRight className="menu-icon" />
-          </li>
-          {/* <li className="menu-item">
-            <span>WEDDING FEST</span>
-          </li>
-          <li className="menu-item">
-            <span>WINTER RETREAT</span>
-          </li> */}
-          <li className="menu-item">
-            <span>SALE</span>
-            <FaChevronRight className="menu-icon" />
-          </li>
+           
+          
+           
         </ul>
       </div>
     </div>

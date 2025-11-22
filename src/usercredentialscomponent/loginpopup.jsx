@@ -18,7 +18,10 @@ const DripLoginPopup = ({ onClose }) => {
           <p>Check Manage return and exchange within 15-days</p>
           <p>Check Exclusive deals and additional benefit</p>
         </div>
-
+          <div className="dripco_input_group">
+          <label>FULL NAME*</label>
+          <input type="text" placeholder="Enter Your Name" />
+        </div>
         <div className="dripco_input_group">
           <label>MOBILE NUMBER*</label>
           <input type="text" placeholder="+91 Enter 10 digit mobile number" />

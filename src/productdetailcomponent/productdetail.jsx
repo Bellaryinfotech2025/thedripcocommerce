@@ -71,6 +71,7 @@ const ProductDetail = () => {
 
   return (
     <div className={`product-detail-container ${isVisible ? "visible" : ""}`}>
+      
       <ToastContainer />
 
       <button className="back-button" onClick={() => navigate("/")}>
