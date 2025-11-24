@@ -1,5 +1,10 @@
 import React from 'react';
 import "../Goat Css/Footer.css"
+import phonepe from "../assets/phonepe.png"
+import gpay from "../assets/gpay.png"
+import paytm from "../assets/paytm.png"
+import internet from "../assets/internet.png"
+import qrcode from "../assets/instgreamqrcode.jpg"
 const Footer = ()=> {
   return (
     <footer className="footer">
@@ -28,11 +33,13 @@ const Footer = ()=> {
             </ul>
           </div>
           <div className="footer-app-section">
-            <h3>GET THE DRIPCO APP</h3>
+            <h3>VISIT US ON INSTGRAM</h3>
             <p>Scan the QR code with your iOS or Android smartphone</p>
             <div className="qr-code-placeholder">
-              {/* Placeholder for QR code; in production, use an img tag with actual QR */}
-              <div className="qr-placeholder">QR Code</div>
+            
+              <div className="qr-placeholder">
+                 <img src={qrcode} alt="insta" style={{width:'100px',height:'100px'}}/>
+              </div>
             </div>
             
           </div>
@@ -40,16 +47,13 @@ const Footer = ()=> {
             <h3>THE DRIPCO ACCEPTS</h3>
             <div className="payment-icons">
               {/* Icons for PhonePe, GPay, Paytm, Debit Card */}
-              <img src="phonepe-icon.png" alt="PhonePe" />
-              <img src="gpay-icon.png" alt="GPay" />
-              <img src="paytm-icon.png" alt="Paytm" />
-              <img src="debit-card-icon.png" alt="Debit Card" />
+              <img src={phonepe} alt="PhonePe" />
+              <img src={gpay} alt="GPay" />
+              <img src={paytm} alt="Paytm" />
+              <img src={internet} alt="Debit Card" />
             </div>
-            <h4>QR SCANNER FOR PAYMENT</h4>
-            <div className="payment-qr-placeholder">
-              {/* Placeholder for payment QR scanner/code */}
-              <div className="qr-placeholder-payment">Scan QR for Payment</div>
-            </div>
+            
+             
           </div>
         </div>
         <div className="footer-bottom">
@@ -60,7 +64,7 @@ const Footer = ()=> {
           </div>
           <div className="copyright-chat">
             <p className="copyright">© 2025 THE DRIPCO</p>
-            <a href="https://wa.me/918919960631?text=hey%20i%20want%20to%20know%20more%20this%20brand%20!!" target="_blank" rel="noopener noreferrer" className="chat-button">Chat to an expert</a>
+            <a href="https://wa.me/918125505568?text=hey%20i%20want%20to%20know%20more%20this%20brand%20!!" target="_blank" rel="noopener noreferrer" className="chat-button">Chat to an expert</a>
           </div>
         </div>
       </div>

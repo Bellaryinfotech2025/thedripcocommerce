@@ -119,7 +119,7 @@ const ProductlayoutMain = () => {
         {!showProducts && total > 0 && (
           <div style={{ textAlign: "center", padding: "100px 20px" }}>
             <button onClick={toggleShow} className="big-btn">
-              SHOW MORE
+              VIEW ALL PRODUCTS
             </button>
           </div>
         )}
@@ -193,7 +193,7 @@ const ProductlayoutMain = () => {
               flexWrap: "wrap"
             }}>
               <button onClick={expanded ? hideAll : toggleShow} className={expanded ? "btn-outline" : "btn-black"}>
-                {expanded ? "SHOW LESS" : "SHOW MORE"}
+                {expanded ? "VIEW LESS" : "VIEW MORE"}
               </button>
 
               {hasMore && (
@@ -213,7 +213,7 @@ const ProductlayoutMain = () => {
           background: #000;
           color: #fff;
           border: none;
-          border-radius: 50px;
+          border-radius: 8px;
           cursor: pointer;
           font-weight: bold;
           box-shadow: 0 8px 25px rgba(0,0,0,0.2);

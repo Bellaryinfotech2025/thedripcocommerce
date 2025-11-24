@@ -185,14 +185,14 @@ function CheckoutPage() {
                                     display: "flex", justifyContent: "space-between",
                                     fontWeight: "bold", fontSize: "18px", marginTop: "8px"
                                 }}>
-                                    <span>TOTAL PAID:</span>
+                                    <span>TOTAL:</span>
                                     <span>₹{finalTotal.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div style={{ marginTop: "20px", fontSize: "13px", color: "#555" }}>
-                            <p>[Mail] Confirmation sent to <strong>{formData.email}</strong></p>
+                            <p>Thank you. <span style={{color:'green',fontWeight:'bold'}} >Order More</span>!</p>
                             <p>[Info] Tracking information coming soon</p>
                             <p>[Clock] Estimated delivery: 3-5 business days</p>
                         </div>
@@ -337,11 +337,7 @@ function CheckoutPage() {
                                         </div>
                                     )}
 
-                                    {formData.paymentMethod === "cod" && (
-                                        <div style={{ borderTop: "1px solid #eee", padding: "20px 0", textAlign: "center" }}>
-                                            <p style={{ fontSize: "16px" }}>Pay ₹{total.toLocaleString()} cash on delivery</p>
-                                        </div>
-                                    )}
+                                     
 
                                     {(formData.paymentMethod === "netbanking" || formData.paymentMethod === "emi") && (
                                         <div style={{ borderTop: "1px solid #eee", padding: "20px 0", textAlign: "center" }}>

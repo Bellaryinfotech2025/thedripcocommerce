@@ -18,14 +18,14 @@ const ReutrnsCode = () => {
         <div className="dripcoreturn-item">
           <div className="dripcoreturn-icon dripcoreturn-exchange">↻</div>
           <h3 className="dripcoreturn-title">EASY EXCHANGES</h3>
-          <p className="dripcoreturn-desc">72-hour window for quick size or product<br />exchanges.</p>
+          <p className="dripcoreturn-desc">72-hour window for quick size or product<br /></p>
         </div>
         <div className="dripcoreturn-item">
           <div className="dripcoreturn-icon dripcoreturn-support">
             <FaMobile/>
           </div>
-          <h3 className="dripcoreturn-title">ROBUST CUSTOMER SUPPORT</h3>
-          <p className="dripcoreturn-desc">Reach us anytime: info@thedripco.store<br />WhatsApp +918919960631</p>
+          <h3 className="dripcoreturn-title">CUSTOMER SUPPORT</h3>
+          <p className="dripcoreturn-desc">Reach us anytime: info@thedripco.store<br />WhatsApp +918125505568</p>
         </div>
         <div className="dripcoreturn-item">
           <div className="dripcoreturn-icon dripcoreturn-happy">
