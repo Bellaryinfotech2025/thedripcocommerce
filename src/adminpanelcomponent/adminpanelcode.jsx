@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AdminPanel.css';
+import '../adminpanelcomponent/adminpanel.css';
 
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
@@ -15,6 +15,13 @@ const AdminPanel = () => {
     category: "PANT'S",
     stock: ""
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(true);
+  const [loginEmail, setLoginEmail] = useState('info@thedripcostore.com');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   // Load products
   useEffect(() => {
@@ -134,11 +141,64 @@ const AdminPanel = () => {
     setShowForm(true);
   };
 
-  const deleteProduct = (id) => {
-    if (window.confirm("Delete this product?")) {
-      setProducts(prev => prev.filter(p => p.id !== id));
+  const initiateDelete = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteId) {
+      setProducts(prev => prev.filter(p => p.id !== deleteId));
+      setShowDeleteModal(false);
+      setDeleteId(null);
     }
   };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (loginEmail === 'info@thedripcostore.com' && loginPassword.length > 0) {
+      setIsLoggedIn(true);
+      setShowLoginModal(false);
+    } else {
+      alert('Invalid credentials');
+    }
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="dripco-login-page">
+        <div className="dripco-login-modal">
+          <h2>Admin Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="dripco-form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="dripco-form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="dripco-submit-btn">Login</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-panel">
@@ -291,7 +351,7 @@ const AdminPanel = () => {
                     <td>{p.dateAdded || "Today"}</td>
                     <td>
                       <button className="edit-btn-modern" onClick={() => startEdit(p)}>Edit</button>
-                      <button className="delete-btn-modern" onClick={() => deleteProduct(p.id)}>Delete</button>
+                      <button className="delete-btn-modern" onClick={() => initiateDelete(p.id)}>Delete</button>
                     </td>
                   </tr>
                 ))}
@@ -300,8 +360,23 @@ const AdminPanel = () => {
           </div>
         )}
       </div>
+
+      {/* DELETE MODAL */}
+      {showDeleteModal && (
+        <div className="dripco-delete-page">
+          <div className="dripco-delete-modal">
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this product?</p>
+            <div className="dripco-modal-actions">
+              <button className="dripco-confirm-btn" onClick={confirmDelete}>Yes, Delete</button>
+              <button className="dripco-cancel-btn" onClick={cancelDelete}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AdminPanel;
+ 

@@ -1,3 +1,4 @@
+// src/productgridcomponent/productgrid1.jsx
 import { useState, useEffect } from "react"
 import "../productgridcomponent/productlayout.css"
 import image1 from "../assets/product1.jpg"
@@ -13,6 +14,7 @@ const Productlayout = () => {
 
   const tabs = ["PANT'S", "TSHIRT'S"]
 
+  // Each product has its OWN images now — no sharing!
   const products = [
     {
       id: 1,
@@ -20,8 +22,13 @@ const Productlayout = () => {
       currentPrice: "699.00",
       originalPrice: "1,319.00",
       discount: 47,
-      image: image1,
+      mainImage: image1,
+      images: [image1, image1, image1, image1], // Only Saiyan images
       category: "PANT'S",
+      material: "Premium Cotton",
+      fit: "Baggy Fit",
+      color: "Black",
+      description: "The ultimate Saiyan baggy pants — bold, oversized, and made for legends."
     },
     {
       id: 2,
@@ -29,8 +36,13 @@ const Productlayout = () => {
       currentPrice: "699.00",
       originalPrice: "1,319.00",
       discount: 44,
-      image: image2,
+      mainImage: image2,
+      images: [image2, image2, image2, image2], // Only Typhoon
       category: "PANT'S",
+      material: "Cotton Blend",
+      fit: "Straight Fit",
+      color: "Black",
+      description: "Typhoon series — powerful, clean, and built for the streets."
     },
     {
       id: 3,
@@ -38,8 +50,13 @@ const Productlayout = () => {
       currentPrice: "699.00",
       originalPrice: "1,319.00",
       discount: 44,
-      image: image3,
+      mainImage: image3,
+      images: [image3, image3, image3, image3], // Only Carnation
       category: "PANT'S",
+      material: "Heavy Cotton",
+      fit: "Relaxed Fit",
+      color: "Black",
+      description: "Carnation black — premium oversized fit with deep comfort."
     },
     {
       id: 4,
@@ -47,8 +64,13 @@ const Productlayout = () => {
       currentPrice: "699.00",
       originalPrice: "1,319.00",
       discount: 44,
-      image: image4,
+      mainImage: image4,
+      images: [image4, image4, image4, image4], // Only Mutation
       category: "PANT'S",
+      material: "Poly-Cotton Blend",
+      fit: "Baggy",
+      color: "Black",
+      description: "Mutation drop — stand out with bold design and perfect drape."
     },
   ]
 
@@ -58,16 +80,13 @@ const Productlayout = () => {
 
   const filteredProducts = products.filter(p => p.category === activeTab)
 
-  // Scroll and navigate based on product ID
-  const handleProductClick = (id) => {
+  const handleProductClick = (product) => {
     window.scrollTo({ top: 0, behavior: "smooth" })
-    navigate(`/products/${id}`)
+    navigate(`/product/${product.id}`, { state: { product } })
   }
 
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
-      
-      {/* Tabs */}
       <div className="tabs-container">
         {tabs.map((tab) => (
           <button
@@ -80,14 +99,13 @@ const Productlayout = () => {
         ))}
       </div>
 
-      {/* Products Grid */}
       <div className="products-grid">
         {filteredProducts.map((product, index) => (
           <div
             key={product.id}
             className="product-card-wrapper"
-            onClick={() => handleProductClick(product.id)}
-            style={{ transitionDelay: `${index * 0.15}s` }}
+            onClick={() => handleProductClick(product)}
+            style={{ transitionDelay: `${index * 0.15}s`, cursor: "pointer" }}
           >
             <div className="product-card">
               <div className="product-image-wrapper">
@@ -97,7 +115,7 @@ const Productlayout = () => {
                   </div>
                 )}
                 <img
-                  src={product.image}
+                  src={product.mainImage}
                   alt={product.name}
                   className="product-image"
                 />
@@ -122,3 +140,11 @@ const Productlayout = () => {
 }
 
 export default Productlayout;
+
+
+
+
+
+
+
+

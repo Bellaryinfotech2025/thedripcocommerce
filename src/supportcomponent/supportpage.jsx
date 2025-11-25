@@ -110,7 +110,7 @@ const SupportPage = () => {
             <h3>SUPPORT FOR ONLINE PURCHASE</h3>
             <p className="phone-number">8105905501</p>
             <p>7 DAYS A WEEK</p>
-            <p>10 AM TO 7 PM</p>
+            <p>24*7</p>
           </div>
 
           <div className="contact-card">
@@ -122,9 +122,7 @@ const SupportPage = () => {
 
           <div className="contact-card">
             <h3>FOR STORE RELATED QUERIES</h3>
-            <p className="highlight-text">TOLL-FREE NUMBER: 18004253950</p>
-            <p>MONDAY TO FRIDAY - 9AM TO 9PM</p>
-            <p>SATURDAY & SUNDAY - 9-30AM TO 9PM</p>
+            <p className="highlight-text">CONTACT NUMBER: 8125505568</p>
             <p className="email-link"><a href="mailto:customerservice@ablbl.aadityabirla.com">CUSTOMERSERVICE@ABLBL.AADITYABIRLA.COM</a></p>
           </div>
 

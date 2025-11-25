@@ -65,7 +65,7 @@ const Navbar = ({ toggleSidebar }) => {
               The DripCo.store
             </button>
             <button className="mobile-cart-btn" onClick={openBag}>
-              <FaShoppingBag className="icon" />
+              <FaShoppingBag className="icon" style={{color:'#ffffff'}}/>
               {getTotalItems() > 0 && <span className="cart-badge">{getTotalItems()}</span>}
             </button>
           </div>
@@ -123,60 +123,82 @@ const Navbar = ({ toggleSidebar }) => {
       </header>
 
       {/* BAG POPUP - UNCHANGED */}
-      {showBagPopup && (
-        <div className="bag-overlay" onClick={() => setShowBagPopup(false)}>
-          <div className="bag-popup" onClick={e => e.stopPropagation()}>
-            <div className="bag-header">
-              <h2>Your Bag ({getTotalItems()})</h2>
-              <button onClick={() => setShowBagPopup(false)} className="close-btn">×</button>
-            </div>
+     {/* BAG POPUP - NEW MODERN COMPRESSED DESIGN */}
+{showBagPopup && (
+  <div className="bag-overlay" onClick={() => setShowBagPopup(false)}>
+    <div className="bag-popup-modern" onClick={e => e.stopPropagation()}>
+      {/* Header */}
+      <div className="bag-header-modern">
+        <div>
+          <h3>My Bag ({getTotalItems()})</h3>
+          <p style={{ fontSize: '12px', opacity: 0.8, marginTop: '4px' }}>
+            {getTotalItems() === 1 ? "1 item" : `${getTotalItems()} items`}
+          </p>
+        </div>
+        <button onClick={() => setShowBagPopup(false)} className="close-btn-modern">×</button>
+      </div>
 
-            <div className="bag-items">
-              {cartItems.length === 0 ? (
-                <div className="empty-bag">
-                  <FaShoppingBag size={80} />
-                  <p>Your bag is empty</p>
-                </div>
-              ) : (
-                cartItems.map((item) => (
-                  <div key={item.cartId} className="bag-item">
-                    <img src={item.image} alt={item.name} className="item-img" />
-                    <div className="item-details">
-                      <p className="item-name">{item.name}</p>
-                      <p className="item-size">Size: <strong>{item.size}</strong></p>
-                      <div className="qty-controls">
-                        <button onClick={() => updateQuantity(item.cartId, item.quantity - 1)}>-</button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.cartId, item.quantity + 1)}>+</button>
-                        <span className="item-price">₹{(item.price * item.quantity).toLocaleString()}</span>
-                      </div>
-                    </div>
-                    <button onClick={() => removeFromCart(item.cartId)} className="remove-btn">Remove</button>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {cartItems.length > 0 && (
-              <div className="bag-footer">
-                <div className="total-price">
-                  <span>Total</span>
-                  <span>₹{getTotalPrice().toLocaleString()}</span>
-                </div>
-                <button 
-                  className="checkout-btn"
-                  onClick={() => {
-                    setShowBagPopup(false)
-                    navigate("/checkout")
-                  }}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
-              </div>
-            )}
+      {/* Items List */}
+      <div className="bag-items-modern">
+        {cartItems.length === 0 ? (
+          <div className="empty-bag-modern">
+            <FaShoppingBag size={60} opacity={0.3} />
+            <p>Your bag feels light</p>
           </div>
+        ) : (
+          cartItems.map((item) => (
+            <div key={item.cartId} className="bag-item-modern">
+              <img src={item.image} alt={item.name} className="item-img-modern" />
+              
+              <div className="item-info-modern">
+                <h4>{item.name}</h4>
+                <p className="size-text">Size: <strong>{item.size}</strong></p>
+                
+                <div className="qty-price-row">
+                  <div className="qty-controls-modern">
+                    <button onClick={() => updateQuantity(item.cartId, item.quantity - 1)}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.cartId, item.quantity + 1)}>+</button>
+                  </div>
+                  <div className="price-text">₹{(item.price * item.quantity).toLocaleString()}</div>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => removeFromCart(item.cartId)} 
+                className="remove-btn-modern"
+              >
+                ×
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Footer - Only if items exist */}
+      {cartItems.length > 0 && (
+        <div className="bag-footer-modern">
+          <div className="total-row">
+            <span>Total</span>
+            <strong>₹{getTotalPrice().toLocaleString()}</strong>
+          </div>
+          <button 
+            className="checkout-btn-modern"
+            onClick={() => {
+              setShowBagPopup(false);
+              navigate("/checkout");
+            }}
+          >
+            PROCEED TO CHECKOUT
+          </button>
+          <p className="secure-text">
+            Secure Checkout • Free Shipping • Easy Returns
+          </p>
         </div>
       )}
+    </div>
+  </div>
+)}
 
       {/* LOGIN DROPDOWN POPUP - EXACTLY LIKE YOUR IMAGE */}
      {showLoginPopup && (
