@@ -9,9 +9,7 @@ import { useCart } from "../context/CartContext";
 import ReutrnsCode from '../returnscomponent/returnscode';
 import { Link } from "react-router-dom";
 import DripLoginPopup from "../usercredentialscomponent/loginpopup.jsx";
-import axios from "axios";
-
-const login_url = "http://localhost:6161/api/v2";
+import { checkLoginStatus, setUserLoggedIn } from "../usercredentialscomponent/logincoookieauth.js";
 
 const Productpagemainwrapper = () => {
   const location = useLocation();
@@ -25,39 +23,59 @@ const Productpagemainwrapper = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [toastMsg, setToastMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!product) navigate("/");
-    checkLoginStatus();
+    if (!product) {
+      navigate("/");
+      return;
+    }
+
+    // Validate cookie with backend once on component mount
+    checkLoginStatus().then((loggedIn) => {
+      setIsLoggedIn(loggedIn);
+      setIsLoading(false);
+    });
   }, [product, navigate]);
 
-  const checkLoginStatus = async () => {
-    const userId = getCookie("userId");
-    if (userId) {
-      try {
-        await axios.get(`${login_url}/users/${userId}`);
-        setIsLoggedIn(true);
-      } catch (err) {
-        deleteCookie("userId");
-      }
+  const handleActionClick = (e) => {
+    if (isLoading) return;
+
+    if (!selectedSize) {
+      setShowSizeToast(true);
+      setTimeout(() => setShowSizeToast(false), 3000);
+      return;
+    }
+
+    if (isLoggedIn) {
+      addToCartDirectly();
+    } else {
+      // show popup for first-time only (cookie check already done)
+      setShowLoginPopup(true);
     }
   };
 
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
+  const addToCartDirectly = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: parseFloat(product.currentPrice),
+      size: selectedSize,
+      image: product.images[0],
+      quantity: 1,
+      color: product.color || "Black",
+    });
+    setShowSuccessToast(true);
+    setTimeout(() => setShowSuccessToast(false), 3000);
   };
 
-  const deleteCookie = (name) => {
-    document.cookie = `${name}=; Max-Age=0; path=/`;
-  };
-
-  const showToast = (msg) => {
-    setToastMsg(msg);
-    setTimeout(() => setToastMsg(""), 3500);
+  const handleRegisterSuccess = () => {
+    // mark logged in: persisted cookie already set by DripLoginPopup
+    setUserLoggedIn();
+    setIsLoggedIn(true);
+    setShowLoginPopup(false);
+    // proceed with intended action (add to cart)
+    addToCartDirectly();
   };
 
   if (!product) return null;
@@ -79,47 +97,12 @@ const Productpagemainwrapper = () => {
     window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
   };
 
-  const handleActionClick = () => {
-    if (!selectedSize) {
-      setShowSizeToast(true);
-      setTimeout(() => setShowSizeToast(false), 3000);
-      return;
-    }
-    if (isLoggedIn) {
-      addToCartDirectly();
-    } else {
-      setShowLoginPopup(true);
-    }
-  };
-
-  const addToCartDirectly = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: currentPrice,
-      size: selectedSize,
-      image: img1,
-      quantity: 1,
-      color: product.color || "Black"
-    });
-    setShowSuccessToast(true);
-    setTimeout(() => setShowSuccessToast(false), 3000);
-  };
-
-  const handleRegisterSuccess = () => {
-    setIsLoggedIn(true);
-    setShowLoginPopup(false);
-    showToast("Registered successfully! Welcome to DripCo");
-    addToCartDirectly(); // Auto add after register
-  };
-
   return (
     <>
       <br /><br /><br /><br />
 
       <div className="tuple_nation_product_wrapper">
 
-        {/* === YOUR EXACT ORIGINAL DESIGN STARTS === */}
         <section className="tuple_nation_section_three_container">
           <div className="tuple_nation_images_grid_triple_stag">
             <div className="tuple_nation_lifestyle_row">
@@ -184,18 +167,24 @@ const Productpagemainwrapper = () => {
               )}
             </div>
 
-            <button 
-              className="tuple_nation_buy_now_btn_cardinal" 
+            <button
+              className="tuple_nation_buy_now_btn_cardinal"
               onClick={handleActionClick}
-              style={{ opacity: selectedSize ? 1 : 0.5, cursor: selectedSize ? 'pointer' : 'not-allowed' }}>
+              style={{
+                opacity: selectedSize && !isLoading ? 1 : 0.5,
+                cursor: selectedSize && !isLoading ? 'pointer' : 'not-allowed'
+              }}>
               BUY NOW
             </button>
 
             <div className="tuple_nation_action_buttons_tanager" style={{ position: 'relative' }}>
-              <button 
-                className="tuple_nation_bag_btn_oriole" 
+              <button
+                className="tuple_nation_bag_btn_oriole"
                 onClick={handleActionClick}
-                style={{ opacity: selectedSize ? 1 : 0.5, cursor: selectedSize ? 'pointer' : 'not-allowed' }}>
+                style={{
+                  opacity: selectedSize && !isLoading ? 1 : 0.5,
+                  cursor: selectedSize && !isLoading ? 'pointer' : 'not-allowed'
+                }}>
                 <CiShoppingCart size={20} /> GO TO BAG
               </button>
 
@@ -213,7 +202,6 @@ const Productpagemainwrapper = () => {
           </div>
         </section>
 
-        {/* === ALL YOUR ORIGINAL SECTIONS BELOW (UNCHANGED) === */}
         <section className="tuple_nation_section_one_container">
           <div className="tuple_nation_images_grid_left">
             <div className="tuple_nation_side_by_side">
@@ -245,8 +233,8 @@ const Productpagemainwrapper = () => {
           <div className="tuple_nation_images_grid_right_monkey" style={{ backgroundColor: "#f0f8ff", padding: "1.5rem", borderRadius: "8px" }}>
             <h3 style={{ color: "#0066cc", fontSize: "16px", fontWeight: "600", margin: "0 0 1rem 0" }}>PRODUCT DETAILS</h3>
             <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "8px" }}>
-              {[...Array(4)].map((_, i) => <FaStar key={i} size={18} color="#FFC107" />)}
-              <FaStarHalfAlt size={18} color="#FFC107" />
+              {[...Array(4)].map((_, i) => <FaStar key={i} size={18} />)}
+              <FaStarHalfAlt size={18} />
               <span style={{ fontSize: "14px", fontWeight: "600", color: "#333" }}>4.5 (100+ reviews)</span>
             </div>
             <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#444" }}>
@@ -258,15 +246,15 @@ const Productpagemainwrapper = () => {
             <div className="tuple_nation_delivery_section_owl">
               <h3 className="tuple_nation_delivery_title_raven">DELIVERY OPTIONS</h3>
               <div className="tuple_nation_delivery_feature_swan">
-                <FaTruck size={22} color="#0066cc" />
+                <FaTruck size={22} />
                 <div><div className="tuple_nation_feature_label_dragon">FREE SHIPPING*</div></div>
               </div>
               <div className="tuple_nation_delivery_feature_swan">
-                <FaSync size={20} color="#0066cc" />
+                <FaSync size={20} />
                 <div><div className="tuple_nation_feature_label_dragon">EASY EXCHANGE AVAILABLE</div></div>
               </div>
               <div className="tuple_nation_delivery_feature_swan">
-                <FaStore size={20} color="#0066cc" />
+                <FaStore size={20} />
                 <div>
                   <div className="tuple_nation_feature_label_dragon">CONTACT THEDRIPCO.STORE</div>
                   <Link to="/supportdripco" className="tuple_nation_location_link_sparrow">CONTACT US</Link>
@@ -278,7 +266,6 @@ const Productpagemainwrapper = () => {
 
         <ReutrnsCode />
 
-        {/* TOASTS */}
         {showSizeToast && (
           <div style={{
             position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
@@ -288,20 +275,11 @@ const Productpagemainwrapper = () => {
             Please select a size first!
           </div>
         )}
-
-        {toastMsg && (
-          <div style={{
-            position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
-            background: '#28a745', color: 'white', padding: '14px 32px', borderRadius: '50px',
-            fontWeight: 'bold', zIndex: 9999, boxShadow: '0 4px 20px rgba(0,0,0,0.3)', fontSize: '15px'
-          }}>
-            {toastMsg}
-          </div>
-        )}
       </div>
 
+      {/* Login Popup → Only shows ONCE in lifetime (cookie-based) */}
       {showLoginPopup && (
-        <DripLoginPopup 
+        <DripLoginPopup
           onClose={() => setShowLoginPopup(false)}
           onRegisterSuccess={handleRegisterSuccess}
         />
