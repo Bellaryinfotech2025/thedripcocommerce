@@ -1,172 +1,144 @@
 import React, { useState, useEffect } from 'react';
 import '../adminpanelcomponent/adminpanel.css';
 
+const API_BASE = "http://localhost:4646";
+
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
   const [form, setForm] = useState({
-    images: [],
-    name: "",
-    currentPrice: "",
-    previousPrice: "",
-    description: "",
+    productId: "",
+    title: "",
     category: "PANT'S",
-    stock: ""
+    price: "",
+    previousPrice: "",
+    stock: "",
+    description: "",
+    size: ""
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(true);
-  const [loginEmail, setLoginEmail] = useState('info@thedripcostore.com');
   const [loginPassword, setLoginPassword] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  // Load products
-  useEffect(() => {
-    const saved = localStorage.getItem("admin-products");
-    if (saved) {
-      try {
-        setProducts(JSON.parse(saved));
-      } catch (e) {
-        console.error("Parse error", e);
-      }
-    }
-  }, []);
-
-  // Auto-save
-  useEffect(() => {
-    if (products.length > 0) {
-      localStorage.setItem("admin-products", JSON.stringify(products));
-    }
-  }, [products]);
-
-  const manualSave = () => {
-    localStorage.setItem("admin-products", JSON.stringify(products));
-    alert("All products saved!");
-  };
-
-  // IMAGE COMPRESSION + BASE64
-  const compressImage = (file, callback) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        const maxSize = 800;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > height) {
-          if (width > maxSize) {
-            height *= maxSize / width;
-            width = maxSize;
-          }
-        } else {
-          if (height > maxSize) {
-            width *= maxSize / height;
-            height = maxSize;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const compressed = canvas.toDataURL('image/webp', 0.8); // 80% quality WebP
-        callback(compressed);
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
-
-    files.forEach(file => {
-      if (!file.type.startsWith('image/')) {
-        alert("Only images allowed");
-        return;
-      }
-
-      compressImage(file, (compressedBase64) => {
-        setForm(prev => ({
-          ...prev,
-          images: [...prev.images, compressedBase64]
-        }));
-      });
-    });
-  };
-
-  const removeImage = (index) => {
-    setForm(prev => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index)
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  // Login
+  const handleLogin = (e) => {
     e.preventDefault();
-
-    const newProduct = {
-      id: editingId || Date.now(),
-      ...form,
-      dateAdded: editingId ? products.find(p => p.id === editingId)?.dateAdded : new Date().toLocaleDateString('en-IN')
-    };
-
-    if (editingId) {
-      setProducts(prev => prev.map(p => p.id === editingId ? newProduct : p));
-      alert("Product updated!");
+    if (loginPassword === "dripcoadmin123") { // Change this or make secure later
+      setIsLoggedIn(true);
     } else {
-      setProducts(prev => [...prev, newProduct]);
-      alert("Product added!");
+      alert("Wrong password!");
+    }
+  };
+
+  // Fetch all products
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/products/all`);
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Fetch failed", err);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchProducts();
+    }
+  }, [isLoggedIn]);
+
+  const handleImageSelect = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!imageFile && !editingProduct) {
+      alert("Please select an image");
+      return;
     }
 
-    setForm({
-      images: [], name: "", currentPrice: "", previousPrice: "",
-      description: "", category: "PANT'S", stock: ""
-    });
-    setEditingId(null);
-    setShowForm(false);
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("productId", form.productId || "");
+    formData.append("title", form.title);
+    formData.append("category", form.category);
+    formData.append("price", form.price);
+    formData.append("previousPrice", form.previousPrice || 0);
+    formData.append("stock", form.stock || 0);
+    formData.append("description", form.description);
+    formData.append("size", form.size || "");
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    try {
+      let url = editingProduct
+        ? `${API_BASE}/api/products/update-image/${editingProduct.id}`
+        : `${API_BASE}/api/products/create`;
+
+      let method = editingProduct ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        body: formData,
+      });
+
+      if (res.ok) {
+        alert(editingProduct ? "Product Updated!" : "Product Added!");
+        setShowForm(false);
+        setEditingProduct(null);
+        setImageFile(null);
+        setForm({
+          productId: "", title: "", category: "PANT'S", price: "", previousPrice: "",
+          stock: "", description: "", size: ""
+        });
+        fetchProducts();
+      } else {
+        const error = await res.text();
+        alert("Error: " + error);
+      }
+    } catch (err) {
+      alert("Network error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const startEdit = (product) => {
-    setForm({ ...product });
-    setEditingId(product.id);
+    setEditingProduct(product);
+    setForm({
+      productId: product.productId,
+      title: product.title,
+      category: product.category,
+      price: product.price,
+      previousPrice: product.previousPrice || "",
+      stock: product.stock,
+      description: product.description || "",
+      size: product.size || ""
+    });
     setShowForm(true);
   };
 
-  const initiateDelete = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
+  const confirmDelete = async () => {
+    if (!deleteId) return;
 
-  const confirmDelete = () => {
-    if (deleteId) {
-      setProducts(prev => prev.filter(p => p.id !== deleteId));
-      setShowDeleteModal(false);
-      setDeleteId(null);
+    try {
+      await fetch(`${API_BASE}/api/products/${deleteId}`, { method: "DELETE" });
+      alert("Product deleted!");
+      fetchProducts();
+    } catch (err) {
+      alert("Delete failed");
     }
-  };
-
-  const cancelDelete = () => {
     setShowDeleteModal(false);
     setDeleteId(null);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (loginEmail === 'info@thedripcostore.com' && loginPassword.length > 0) {
-      setIsLoggedIn(true);
-      setShowLoginModal(false);
-    } else {
-      alert('Invalid credentials');
-    }
   };
 
   if (!isLoggedIn) {
@@ -176,21 +148,13 @@ const AdminPanel = () => {
           <h2>Admin Login</h2>
           <form onSubmit={handleLogin}>
             <div className="dripco-form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="dripco-form-group">
               <label>Password</label>
               <input
                 type="password"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 required
+                placeholder="Enter admin password"
               />
             </div>
             <button type="submit" className="dripco-submit-btn">Login</button>
@@ -205,65 +169,39 @@ const AdminPanel = () => {
       <br /><br /><br /><br />
 
       <header className="panel-header">
-        <h1>Product Management</h1>
-        <div className="header-actions">
-          <button className="add-btn" onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-            setForm({
-              images: [], name: "", currentPrice: "", previousPrice: "",
-              description: "", category: "PANT'S", stock: ""
-            });
-          }}>
-            + Add Product
-          </button>
-          <button className="save-btn" onClick={manualSave}>
-            SAVE ALL
-          </button>
-        </div>
+        <h1>Product Management (Live DB)</h1>
+        <button className="add-btn" onClick={() => {
+          setShowForm(true);
+          setEditingProduct(null);
+          setImageFile(null);
+          setForm({ productId: "", title: "", category: "PANT'S", price: "", previousPrice: "", stock: "", description: "", size: "" });
+        }}>
+          + Add Product
+        </button>
       </header>
 
-      {/* FORM */}
       {showForm && (
         <div className="form-card">
           <div className="form-header">
-            <h2>{editingId ? "Edit Product" : "Add New Product"}</h2>
+            <h2>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
             <button className="close-btn" onClick={() => setShowForm(false)}>×</button>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Images (Auto-compressed)</label>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageChange}
-                id="img-input"
-                style={{ display: "none" }}
-              />
-              <label htmlFor="img-input" className="upload-btn">Choose Images</label>
-
-              <div className="image-preview-grid">
-                {form.images.map((src, i) => (
-                  <div key={i} className="preview-wrapper">
-                    <img src={src} alt="preview" />
-                    <button type="button" className="remove-img" onClick={() => removeImage(i)}>×</button>
-                  </div>
-                ))}
-              </div>
+              <label>Image *</label>
+              <input type="file" accept="image/*" onChange={handleImageSelect} required={!editingProduct} />
+              {editingProduct && imageFile && <p>Selected: {imageFile.name}</p>}
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label>Name *</label>
-                <input type="text" required value={form.name}
-                  onChange={e => setForm({ ...form, name: e.target.value })} />
+                <label>Title *</label>
+                <input type="text" required value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
               </div>
               <div className="form-group">
                 <label>Category *</label>
-                <select value={form.category}
-                  onChange={e => setForm({ ...form, category: e.target.value })}>
+                <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
                   <option value="PANT'S">PANT'S</option>
                   <option value="TSHIRT'S">TSHIRT'S</option>
                 </select>
@@ -272,105 +210,87 @@ const AdminPanel = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Current Price (₹) *</label>
-                <input type="text" required value={form.currentPrice}
-                  onChange={e => setForm({ ...form, currentPrice: e.target.value })} />
+                <label>Price (₹) *</label>
+                <input type="number" step="0.01" required value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
               </div>
               <div className="form-group">
                 <label>Previous Price (₹)</label>
-                <input type="text" value={form.previousPrice}
-                  onChange={e => setForm({ ...form, previousPrice: e.target.value })} />
+                <input type="number" step="0.01" value={form.previousPrice} onChange={e => setForm({ ...form, previousPrice: e.target.value })} />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Stock *</label>
+                <input type="number" required value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Size (Optional)</label>
+                <input type="text" value={form.size} onChange={e => setForm({ ...form, size: e.target.value })} />
               </div>
             </div>
 
             <div className="form-group">
-              <label>Stock *</label>
-              <input type="number" required min="0" value={form.stock}
-                onChange={e => setForm({ ...form, stock: e.target.value })} />
-            </div>
-
-            <div className="form-group">
-              <label>Description *</label>
-              <textarea rows="4" required value={form.description}
-                onChange={e => setForm({ ...form, description: e.target.value })} />
+              <label>Description</label>
+              <textarea rows="4" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
             </div>
 
             <div className="form-actions">
-              <button className="submit-btn" type="submit">
-                {editingId ? "Update" : "Add"} Product
+              <button type="submit" disabled={loading} className="submit-btn">
+                {loading ? "Saving..." : (editingProduct ? "Update" : "Add Product")}
               </button>
-              <button className="cancel-btn" type="button" onClick={() => setShowForm(false)}>
-                Cancel
-              </button>
+              <button type="button" onClick={() => setShowForm(false)} className="cancel-btn">Cancel</button>
             </div>
           </form>
         </div>
       )}
 
-      {/* BEAUTIFUL PRODUCT TABLE BELOW */}
       <div className="modern-table-container">
-        <h2>Recently Added Products ({products.length})</h2>
-
+        <h2>All Products ({products.length})</h2>
         {products.length === 0 ? (
-          <div className="empty-state">
-            <p>No products yet. Add your first one!</p>
-          </div>
+          <p>No products in database yet.</p>
         ) : (
-          <div className="table-wrapper">
-            <table className="modern-table">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                  <th>Date Added</th>
-                  <th>Actions</th>
+          <table className="modern-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(p => (
+                <tr key={p.id}>
+                  <td>
+                    {p.imageUrl ? (
+                      <img src={`${API_BASE}${p.imageUrl}`} alt={p.title} style={{ width: 60, height: 60, objectFit: "cover" }} />
+                    ) : "No Image"}
+                  </td>
+                  <td>{p.title}</td>
+                  <td>{p.category}</td>
+                  <td>₹{p.price} {p.previousPrice && <del>₹{p.previousPrice}</del>}</td>
+                  <td>{p.stock}</td>
+                  <td>
+                    <button onClick={() => startEdit(p)} className="edit-btn-modern">Edit</button>
+                    <button onClick={() => { setDeleteId(p.id); setShowDeleteModal(true); }} className="delete-btn-modern">Delete</button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {products.map(p => (
-                  <tr key={p.id} className="table-row">
-                    <td>
-                      {p.images?.[0] ? (
-                        <img src={p.images[0]} alt={p.name} className="product-thumb" />
-                      ) : (
-                        <div className="no-img">No Image</div>
-                      )}
-                    </td>
-                    <td className="product-name">{p.name}</td>
-                    <td><span className="category-badge">{p.category}</span></td>
-                    <td>
-                      <div className="price-col">
-                        <span className="current">₹{p.currentPrice}</span>
-                        {p.previousPrice && <span className="old">₹{p.previousPrice}</span>}
-                      </div>
-                    </td>
-                    <td>{p.stock || "Unlimited"}</td>
-                    <td>{p.dateAdded || "Today"}</td>
-                    <td>
-                      <button className="edit-btn-modern" onClick={() => startEdit(p)}>Edit</button>
-                      <button className="delete-btn-modern" onClick={() => initiateDelete(p.id)}>Delete</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
 
-      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="dripco-delete-page">
           <div className="dripco-delete-modal">
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete this product?</p>
-            <div className="dripco-modal-actions">
-              <button className="dripco-confirm-btn" onClick={confirmDelete}>Yes, Delete</button>
-              <button className="dripco-cancel-btn" onClick={cancelDelete}>Cancel</button>
-            </div>
+            <h2>Delete Product?</h2>
+            <p>This cannot be undone.</p>
+            <button onClick={confirmDelete} className="dripco-confirm-btn">Yes, Delete</button>
+            <button onClick={() => setShowDeleteModal(false)} className="dripco-cancel-btn">Cancel</button>
           </div>
         </div>
       )}
@@ -379,4 +299,3 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
- 

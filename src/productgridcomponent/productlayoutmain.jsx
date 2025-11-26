@@ -3,48 +3,42 @@ import "../productgridcomponent/productlayout.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+const API_BASE = "http://localhost:4646";
+
 const ProductlayoutMain = () => {
   const [activeTab, setActiveTab] = useState("PANT'S");
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState([]);
   const [showProducts, setShowProducts] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
-
   const { addToCart } = useCart();
 
   const tabs = ["PANT'S", "TSHIRT'S"];
 
+  // FETCH PRODUCTS FROM REAL BACKEND
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/products/all`);
+      if (!res.ok) throw new Error("API Error");
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Failed to fetch products from server:", err);
+    }
+  };
+
   useEffect(() => {
     setIsVisible(true);
-
-    const loadProducts = () => {
-      try {
-        const saved = localStorage.getItem("admin-products");
-        if (!saved) return;
-        const parsed = JSON.parse(saved);
-        setProducts(prev => 
-          JSON.stringify(prev) === JSON.stringify(parsed) ? prev : parsed || []
-        );
-      } catch (e) {
-        console.error("Load error:", e);
-      }
-    };
-
-    loadProducts();
-    const interval = setInterval(loadProducts, 2000);
-    window.addEventListener("storage", loadProducts);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("storage", loadProducts);
-    };
+    fetchProducts();
+    const interval = setInterval(fetchProducts, 5000); // Auto refresh every 5 sec
+    return () => clearInterval(interval);
   }, []);
 
   const filteredProducts = products.filter(p => p.category === activeTab);
   const total = filteredProducts.length;
   const hasMore = total > 8;
 
-  const [expanded, setExpanded] = useState(false);
   const displayedProducts = showProducts
     ? (expanded ? filteredProducts : filteredProducts.slice(0, 8))
     : [];
@@ -85,20 +79,17 @@ const ProductlayoutMain = () => {
     const cartItem = {
       cartId: Date.now() + Math.random(),
       id: product.id,
-      name: product.name,
-      price: parseFloat(product.currentPrice),
+      name: product.title,
+      price: parseFloat(product.price),
       quantity: 1,
-      image: product.images?.[0] || "https://via.placeholder.com/70",
-      size: product.size || null,
-      color: product.color || null
+      image: `${API_BASE}${product.imageUrl}` || "https://via.placeholder.com/70",
     };
     addToCart(cartItem);
-    alert(`${product.name} added to cart!`);
+    alert(`${product.title} added to cart!`);
   };
 
-  // Navigate to dynamic product page with full product data
   const openProductPage = (product) => {
-    navigate(`/product/${product.id}`, { state: { product } });
+    navigate(`/product/${product.productId}`, { state: { product } });
   };
 
   return (
@@ -116,6 +107,7 @@ const ProductlayoutMain = () => {
       </div>
 
       <div style={{ minHeight: "400px" }}>
+        {/* SHOW "VIEW ALL PRODUCTS" BUTTON ONLY IF PRODUCTS EXIST */}
         {!showProducts && total > 0 && (
           <div style={{ textAlign: "center", padding: "100px 20px" }}>
             <button onClick={toggleShow} className="big-btn">
@@ -124,11 +116,12 @@ const ProductlayoutMain = () => {
           </div>
         )}
 
+        {/* SHOW PRODUCTS GRID */}
         {showProducts && displayedProducts.length > 0 && (
           <>
             <div className="products-grid">
               {displayedProducts.map((product, index) => {
-                const discount = getDiscount(product.currentPrice, product.previousPrice);
+                const discount = getDiscount(product.price, product.previousPrice);
                 return (
                   <div
                     key={product.id}
@@ -140,38 +133,46 @@ const ProductlayoutMain = () => {
                   >
                     <div className="product-card">
                       <div className="product-image-wrapper">
-                        {discount !== null && <div className="discount-badge">SAVE {discount}%</div>}
+                        {discount !== null && (
+                          <div className="discount-badge">SAVE {discount}%</div>
+                        )}
                         <img
-                          src={product.images?.[0] || "https://via.placeholder.com/400?text=No+Image"}
-                          alt={product.name}
+                          src={`${API_BASE}${product.imageUrl}`}
+                          alt={product.title}
                           className="product-image"
                           onClick={() => openProductPage(product)}
                           style={{ cursor: "pointer" }}
+                          onError={(e) => {
+                            e.target.src = "https://via.placeholder.com/400?text=No+Image";
+                          }}
                         />
                       </div>
                       <div className="product-info">
-                        <h3 className="product-name">{product.name}</h3>
+                        <h3 className="product-name">{product.title}</h3>
                         <div className="product-prices">
-                          <span className="current-price">₹{product.currentPrice}</span>
+                          <span className="current-price">₹{product.price}</span>
                           {product.previousPrice && (
                             <span className="original-price">₹{product.previousPrice}</span>
                           )}
                         </div>
-                        {parseInt(product.stock) === 0 ? (
-                          <p style={{ color: "red", marginTop: "8px" }}>Out of Stock</p>
+                        {product.stock <= 0 ? (
+                          <p style={{ color: "red", marginTop: "8px", fontWeight: "bold" }}>
+                            Out of Stock
+                          </p>
                         ) : (
                           <button
                             onClick={() => handleAddToCart(product)}
                             style={{
                               marginTop: "12px",
                               width: "100%",
-                              padding: "10px",
+                              padding: "12px",
                               background: "#000",
                               color: "#fff",
                               border: "none",
                               borderRadius: "6px",
                               fontWeight: "bold",
-                              cursor: "pointer"
+                              cursor: "pointer",
+                              fontSize: "14px"
                             }}
                           >
                             ADD TO CART
@@ -184,6 +185,7 @@ const ProductlayoutMain = () => {
               })}
             </div>
 
+            {/* VIEW MORE / VIEW LESS + VIEW ALL IN SHOP */}
             <div style={{
               textAlign: "center",
               marginTop: "50px",
@@ -192,7 +194,10 @@ const ProductlayoutMain = () => {
               justifyContent: "center",
               flexWrap: "wrap"
             }}>
-              <button onClick={expanded ? hideAll : toggleShow} className={expanded ? "btn-outline" : "btn-black"}>
+              <button 
+                onClick={expanded ? hideAll : toggleShow} 
+                className={expanded ? "btn-outline" : "btn-black"}
+              >
                 {expanded ? "VIEW LESS" : "VIEW MORE"}
               </button>
 
@@ -204,8 +209,16 @@ const ProductlayoutMain = () => {
             </div>
           </>
         )}
+
+        {/* NO PRODUCTS MESSAGE */}
+        {total === 0 && (
+          <div style={{ textAlign: "center", padding: "100px 20px" }}>
+            <p>No {activeTab.toLowerCase()} available right now.</p>
+          </div>
+        )}
       </div>
 
+      {/* SAME STYLING AS BEFORE */}
       <style jsx>{`
         .big-btn {
           padding: 18px 60px;
@@ -217,6 +230,11 @@ const ProductlayoutMain = () => {
           cursor: pointer;
           font-weight: bold;
           box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+          transition: all 0.3s;
+        }
+        .big-btn:hover {
+          background: #333;
+          transform: translateY(-3px);
         }
         .btn-black {
           padding: 14px 36px;
@@ -231,12 +249,16 @@ const ProductlayoutMain = () => {
         .btn-outline {
           padding: 14px 36px;
           font-size: 1rem;
-          background: #fff;
+          background: transparent;
           color: #000;
           border: 2px solid #000;
           border-radius: 6px;
           cursor: pointer;
           font-weight: bold;
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>

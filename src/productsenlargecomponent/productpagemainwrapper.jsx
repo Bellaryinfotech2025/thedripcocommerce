@@ -11,10 +11,13 @@ import { Link } from "react-router-dom";
 import DripLoginPopup from "../usercredentialscomponent/loginpopup.jsx";
 import { checkLoginStatus, setUserLoggedIn } from "../usercredentialscomponent/logincoookieauth.js";
 
+const API_BASE = "http://localhost:4646";
+
 const Productpagemainwrapper = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+
   const product = location.state?.product;
 
   const [selectedSize, setSelectedSize] = useState("");
@@ -23,7 +26,7 @@ const Productpagemainwrapper = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Critical for login check
 
   useEffect(() => {
     if (!product) {
@@ -31,14 +34,40 @@ const Productpagemainwrapper = () => {
       return;
     }
 
-    // Validate cookie with backend once on component mount
+    // THIS IS THE KEY: Check login status ONCE when page loads
     checkLoginStatus().then((loggedIn) => {
       setIsLoggedIn(loggedIn);
-      setIsLoading(false);
+      setIsLoading(false); // Only now loading is done
     });
   }, [product, navigate]);
 
-  const handleActionClick = (e) => {
+  if (!product) return null;
+
+  // UNIVERSAL IMAGE LOGIC
+  const getImageUrl = () => {
+    if (product.imageUrl) return `${API_BASE}${product.imageUrl}`;
+    if (product.images && product.images.length > 0) return product.images[0];
+    return "https://via.placeholder.com/600x800/222/fff?text=NO+IMAGE";
+  };
+
+  const mainImage = getImageUrl();
+  const img1 = mainImage;
+  const img2 = product.images?.[1] || mainImage;
+  const img3 = product.images?.[2] || mainImage;
+  const img4 = product.images?.[3] || mainImage;
+
+  // UNIVERSAL DATA
+  const title = product.title || product.name || "Untitled Product";
+  const currentPrice = parseFloat(product.price || product.currentPrice || 0);
+  const previousPrice = parseFloat(product.previousPrice || product.originalPrice || 0);
+  const description = product.description || "Premium quality streetwear from DripCo.";
+  const stock = product.stock !== undefined ? product.stock : 999;
+
+  const discount = previousPrice > currentPrice
+    ? Math.round(((previousPrice - currentPrice) / previousPrice) * 100)
+    : null;
+
+  const handleActionClick = () => {
     if (isLoading) return;
 
     if (!selectedSize) {
@@ -50,50 +79,34 @@ const Productpagemainwrapper = () => {
     if (isLoggedIn) {
       addToCartDirectly();
     } else {
-      // show popup for first-time only (cookie check already done)
-      setShowLoginPopup(true);
+      setShowLoginPopup(true); // Show only if not logged in
     }
   };
 
   const addToCartDirectly = () => {
     addToCart({
-      id: product.id,
-      name: product.name,
-      price: parseFloat(product.currentPrice),
+      id: product.id || Date.now(),
+      productId: product.productId || product.id,
+      name: title,
+      price: currentPrice,
       size: selectedSize,
-      image: product.images[0],
+      image: mainImage,
       quantity: 1,
-      color: product.color || "Black",
     });
     setShowSuccessToast(true);
     setTimeout(() => setShowSuccessToast(false), 3000);
   };
 
   const handleRegisterSuccess = () => {
-    // mark logged in: persisted cookie already set by DripLoginPopup
-    setUserLoggedIn();
-    setIsLoggedIn(true);
-    setShowLoginPopup(false);
-    // proceed with intended action (add to cart)
-    addToCartDirectly();
+    setUserLoggedIn();        // Sets permanent cookie
+    setIsLoggedIn(true);      // Update state
+    setShowLoginPopup(false); // Close popup
+    addToCartDirectly();      // Add to cart immediately
   };
-
-  if (!product) return null;
-
-  const img1 = product.images[0];
-  const img2 = product.images[1] || img1;
-  const img3 = product.images[2] || img1;
-  const img4 = product.images[3] || img1;
-
-  const currentPrice = parseFloat(product.currentPrice);
-  const previousPrice = parseFloat(product.originalPrice);
-  const discount = previousPrice > currentPrice
-    ? Math.round(((previousPrice - currentPrice) / previousPrice) * 100)
-    : null;
 
   const shareOnWhatsApp = () => {
     const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent(`Check out ${product.name} on DripCo!`);
+    const text = encodeURIComponent(`Check out ${title} on DripCo! Only ₹${currentPrice}`);
     window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
   };
 
@@ -102,7 +115,6 @@ const Productpagemainwrapper = () => {
       <br /><br /><br /><br />
 
       <div className="tuple_nation_product_wrapper">
-
         <section className="tuple_nation_section_three_container">
           <div className="tuple_nation_images_grid_triple_stag">
             <div className="tuple_nation_lifestyle_row">
@@ -113,7 +125,7 @@ const Productpagemainwrapper = () => {
 
           <div className="tuple_nation_purchase_panel_lynx">
             <div className="tuple_nation_header_section_jackal">
-              <h1 className="tuple_nation_product_title_meerkat">{product.name}</h1>
+              <h1 className="tuple_nation_product_title_meerkat">{title}</h1>
               <button onClick={shareOnWhatsApp} className="tuple_nation_share_btn_otter">
                 <IoIosShareAlt size={24} color="#000000" />
               </button>
@@ -167,13 +179,15 @@ const Productpagemainwrapper = () => {
               )}
             </div>
 
+            {/* BUTTONS WITH CORRECT OPACITY & CURSOR BASED ON SIZE + LOGIN STATUS */}
             <button
               className="tuple_nation_buy_now_btn_cardinal"
               onClick={handleActionClick}
               style={{
                 opacity: selectedSize && !isLoading ? 1 : 0.5,
                 cursor: selectedSize && !isLoading ? 'pointer' : 'not-allowed'
-              }}>
+              }}
+            >
               BUY NOW
             </button>
 
@@ -184,7 +198,8 @@ const Productpagemainwrapper = () => {
                 style={{
                   opacity: selectedSize && !isLoading ? 1 : 0.5,
                   cursor: selectedSize && !isLoading ? 'pointer' : 'not-allowed'
-                }}>
+                }}
+              >
                 <CiShoppingCart size={20} /> GO TO BAG
               </button>
 
@@ -202,6 +217,7 @@ const Productpagemainwrapper = () => {
           </div>
         </section>
 
+        {/* Rest of your beautiful UI */}
         <section className="tuple_nation_section_one_container">
           <div className="tuple_nation_images_grid_left">
             <div className="tuple_nation_side_by_side">
@@ -212,13 +228,11 @@ const Productpagemainwrapper = () => {
           <div className="tuple_nation_specs_panel_deer">
             <div className="tuple_nation_specs_grid">
               {[
-                ["Material", product.material],
-                ["Fit", product.fit],
-                ["Style Code", `DRIP-${product.id}`],
+                ["Style Code", product.productId ? `DRIP-${product.productId}` : `DRIP-${product.id || 'XXXX'}`],
                 ["Brand", "DripCo"],
-                ["Color", product.color],
-                ["Product Type", product.category === "TSHIRT'S" ? "Oversized T-Shirt" : "Baggy Pants"],
-                ["Collection", "Street Series"],
+                ["Category", (product.category || "UNKNOWN").replace("'S", "S")],
+                ["In Stock", stock > 0 ? "Yes" : "No"],
+                ["Collection", "Street Series 2025"],
               ].map(([label, value]) => (
                 <div key={label} className="tuple_nation_spec_row_lion">
                   <span className="tuple_nation_spec_label_tiger">{label}:</span>
@@ -233,12 +247,12 @@ const Productpagemainwrapper = () => {
           <div className="tuple_nation_images_grid_right_monkey" style={{ backgroundColor: "#f0f8ff", padding: "1.5rem", borderRadius: "8px" }}>
             <h3 style={{ color: "#0066cc", fontSize: "16px", fontWeight: "600", margin: "0 0 1rem 0" }}>PRODUCT DETAILS</h3>
             <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "8px" }}>
-              {[...Array(4)].map((_, i) => <FaStar key={i} size={18} />)}
-              <FaStarHalfAlt size={18} />
-              <span style={{ fontSize: "14px", fontWeight: "600", color: "#333" }}>4.5 (100+ reviews)</span>
+              {[...Array(4)].map((_, i) => <FaStar key={i} size={18} color="#FFD700" />)}
+              <FaStarHalfAlt size={18} color="#FFD700" />
+              <span style={{ fontSize: "14px", fontWeight: "600", color: "#333" }}>4.5 (127+ reviews)</span>
             </div>
             <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#444" }}>
-              {product.description}
+              {description}
             </p>
           </div>
 
@@ -251,7 +265,7 @@ const Productpagemainwrapper = () => {
               </div>
               <div className="tuple_nation_delivery_feature_swan">
                 <FaSync size={20} />
-                <div><div className="tuple_nation_feature_label_dragon">EASY EXCHANGE AVAILABLE</div></div>
+                <div><div className="tuple_nation_feature_label_dragon">7-DAY EASY RETURNS</div></div>
               </div>
               <div className="tuple_nation_delivery_feature_swan">
                 <FaStore size={20} />
@@ -277,7 +291,7 @@ const Productpagemainwrapper = () => {
         )}
       </div>
 
-      {/* Login Popup → Only shows ONCE in lifetime (cookie-based) */}
+      {/* Login Popup - Only shows ONCE per lifetime */}
       {showLoginPopup && (
         <DripLoginPopup
           onClose={() => setShowLoginPopup(false)}

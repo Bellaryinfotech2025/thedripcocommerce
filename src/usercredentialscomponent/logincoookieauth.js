@@ -48,10 +48,10 @@ export const removeUserIdCookie = () => {
  * - If no cookie, return false.
  * - This caches the check per page load (loginChecked).
  *
- * @param {string} validateUrlPrefix - e.g. "http://localhost:6161/api/v2"
+ * @param {string} validateUrlPrefix - e.g. "http://localhost:4646/api/v2"
  * @returns {Promise<boolean>}
  */
-export const checkLoginStatus = async (validateUrlPrefix = "http://localhost:6161/api/v2") => {
+export const checkLoginStatus = async (validateUrlPrefix = "http://localhost:4646/api/v2") => {
   // If we've checked this session already, return cached result
   if (loginChecked) return isUserLoggedIn;
 
