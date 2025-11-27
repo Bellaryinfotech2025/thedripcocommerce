@@ -27,6 +27,7 @@ import SupportPage from "./supportcomponent/supportpage.jsx";
 // ADD THIS IMPORT
 import Productpagemainwrapper from "../src/productsenlargecomponent/productpagemainwrapper.jsx";   
 import MyOrders from "./myorderscomponent/myorderspage.jsx";
+import UserDetail from "./adminpanelcomponent/userdetails.jsx";
 
 /* ---------- ProductRouter (OLD - keep exactly as it is) ---------- */
  
@@ -85,6 +86,8 @@ function App() {
 
                <Route path="/myaccount" element={<MyOrders />} />
                 <Route path="/supportdripco" element={<SupportPage />} />
+
+                 <Route path="/userlogindetails" element={<UserDetail />} />
             </Routes>
           </div>
 
