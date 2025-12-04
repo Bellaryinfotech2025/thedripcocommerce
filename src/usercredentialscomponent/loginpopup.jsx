@@ -1,123 +1,333 @@
-// src/usercredentialscomponent/loginpopup.jsx
-import { useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import "../usercredentialscomponent/logindesignppup.css";
-import axios from "axios";
-import { setUserIdCookie } from "../usercredentialscomponent/logincoookieauth"; // <- write cookie here
+"use client"
 
-const login_url = "http://localhost:4646/api/v2";
+import { useState } from "react"
+import { FaTimes, FaUser, FaPhone } from "react-icons/fa"
+
+const API_BASE = "http://195.35.45.56:4646/api/v2"
 
 const DripLoginPopup = ({ onClose, onRegisterSuccess }) => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
 
-  const handleRegister = async () => {
-    if (!name.trim() || phone.length !== 10) {
-      alert("Please enter valid name and 10-digit phone number");
-      return;
-    }
+  const [formData, setFormData] = useState({
+    name: "",
+    phoneNumber: "",
+  })
 
-    setLoading(true);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setError("")
+    setSuccessMessage("")
+  }
+
+  // Check if user exists by phone number
+  const findUserByPhone = async (phoneNumber) => {
     try {
-      // include credentials in case your backend sets cookies or expects them
-      const res = await axios.post(
-        `${login_url}/users`,
-        {
-          name: name.trim(),
-          phoneNumber: phone
-        },
-        { withCredentials: true }
-      );
+      const response = await fetch(`${API_BASE}/users`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      })
 
-      // Backend might return shape A or B:
-      // A: { userId: "123456" }
-      // B: { id: 1, userId: "123456", name: "...", ... }
-      // We'll accept either. If server returns something else, try to find userId robustly.
-      const data = res && res.data ? res.data : null;
-      let returnedUserId = null;
-
-      if (data) {
-        // Common: data.userId
-        if (data.userId) returnedUserId = data.userId;
-        // Some servers nest result: data.data.userId
-        else if (data.data && data.data.userId) returnedUserId = data.data.userId;
-        // Fallback: if server returns only a string or number
-        else if (typeof data === "string" || typeof data === "number") returnedUserId = String(data);
+      if (!response.ok) {
+        return null
       }
 
-      if (!returnedUserId) {
-        // If we could not extract userId, try to fetch it using phone number (less ideal)
-        // But to avoid extra calls, we will still proceed and call onRegisterSuccess, and let global check validate later.
-        console.warn("No userId found in response. Registration might still succeed, but cookie won't be set.");
-        onRegisterSuccess();
-        return;
-      }
-
-      // Persist cookie for long-lived login
-      setUserIdCookie(returnedUserId);
-
-      // notify parent
-      onRegisterSuccess();
+      const users = await response.json()
+      // Find user with matching phone number
+      const existingUser = users.find((user) => user.phoneNumber === phoneNumber)
+      return existingUser || null
     } catch (err) {
-      console.error("Registration error:", err);
-      alert("Registration failed. Try again.");
-    } finally {
-      setLoading(false);
+      console.error("Error checking user:", err)
+      return null
     }
-  };
+  }
+
+  // Create new user
+  const createUser = async (name, phoneNumber) => {
+    try {
+      const response = await fetch(`${API_BASE}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          name: name,
+          phoneNumber: phoneNumber,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to create account")
+      }
+
+      const newUser = await response.json()
+      return newUser
+    } catch (err) {
+      throw err
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
+    setSuccessMessage("")
+
+    // Validate phone number (10 digits)
+    const phoneRegex = /^[0-9]{10}$/
+    if (!phoneRegex.test(formData.phoneNumber)) {
+      setError("Please enter a valid 10-digit phone number")
+      setIsLoading(false)
+      return
+    }
+
+    // Validate name
+    if (formData.name.trim().length < 2) {
+      setError("Please enter a valid name")
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      // First check if user already exists
+      const existingUser = await findUserByPhone(formData.phoneNumber)
+
+      if (existingUser) {
+        // User exists - log them in
+        setSuccessMessage(`Welcome back, ${existingUser.name}!`)
+        setTimeout(() => {
+          onRegisterSuccess(existingUser.userId)
+        }, 1000)
+      } else {
+        // New user - create account
+        const newUser = await createUser(formData.name, formData.phoneNumber)
+        setSuccessMessage(`Account created! Welcome, ${newUser.name}!`)
+        setTimeout(() => {
+          onRegisterSuccess(newUser.userId)
+        }, 1000)
+      }
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
-    <div className="dripco_popup_overlay">
-      <div className="dripco_popup_container">
-        <button className="dripco_close_btn" onClick={onClose}>
-          <FaTimes size={20} />
-        </button>
-
-        <h2 className="dripco_popup_title">LOG IN / SIGN UP</h2>
-        <p className="dripco_popup_subtitle">Join Now for Seamless Shopping Experience</p>
-
-        <div className="dripco_benefits">
-          <p>Easy order tracking</p>
-          <p>Manage return and exchange within 15-days</p>
-          <p>Exclusive deals and additional benefit</p>
-        </div>
-
-        <div className="dripco_input_group">
-          <label>FULL NAME*</label>
-          <input
-            type="text"
-            placeholder="Enter Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="dripco_input_group">
-          <label>MOBILE NUMBER*</label>
-          <input
-            type="text"
-            placeholder="+91 Enter 10 digit mobile number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
-            maxLength="10"
-          />
-        </div>
-
-        <p className="dripco_terms">
-          By Continuing, I agree to the <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy</a>
-        </p>
-
-        <button
-          className="dripco_register_btn"
-          onClick={handleRegister}
-          disabled={loading}
-          style={{ opacity: loading || !name || phone.length !== 10 ? 0.6 : 1 }}
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(0,0,0,0.6)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 10000,
+        padding: "20px",
+      }}
+    >
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          overflow: "hidden",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            background: "linear-gradient(135deg, #000 0%, #333 100%)",
+            padding: "24px",
+            color: "#fff",
+            position: "relative",
+          }}
         >
-          {loading ? "Registering..." : "REGISTER WITH DRIPCO"}
-        </button>
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "16px",
+              background: "rgba(255,255,255,0.2)",
+              border: "none",
+              borderRadius: "50%",
+              width: "32px",
+              height: "32px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "#fff",
+            }}
+          >
+            <FaTimes size={14} />
+          </button>
+
+          <h2 style={{ margin: "0 0 4px", fontSize: "24px", fontWeight: "700" }}>Welcome to DripCo</h2>
+          <p style={{ margin: 0, opacity: 0.8, fontSize: "14px" }}>Enter your details to continue shopping</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} style={{ padding: "24px" }}>
+          {error && (
+            <div
+              style={{
+                background: "#ffebee",
+                color: "#c62828",
+                padding: "12px",
+                borderRadius: "8px",
+                marginBottom: "16px",
+                fontSize: "13px",
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div
+              style={{
+                background: "#e8f5e9",
+                color: "#2e7d32",
+                padding: "12px",
+                borderRadius: "8px",
+                marginBottom: "16px",
+                fontSize: "13px",
+                fontWeight: "500",
+              }}
+            >
+              {successMessage}
+            </div>
+          )}
+
+          {/* Name Input */}
+          <div style={{ position: "relative", marginBottom: "16px" }}>
+            <FaUser
+              style={{
+                position: "absolute",
+                left: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: "#999",
+              }}
+            />
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              style={{
+                width: "100%",
+                padding: "14px 14px 14px 42px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "15px",
+                boxSizing: "border-box",
+                outline: "none",
+                transition: "border-color 0.2s",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#000")}
+              onBlur={(e) => (e.target.style.borderColor = "#ddd")}
+            />
+          </div>
+
+          {/* Phone Number Input */}
+          <div style={{ position: "relative", marginBottom: "20px" }}>
+            <FaPhone
+              style={{
+                position: "absolute",
+                left: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: "#999",
+              }}
+            />
+            <input
+              type="tel"
+              name="phoneNumber"
+              placeholder="Phone Number (10 digits)"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              required
+              maxLength={10}
+              style={{
+                width: "100%",
+                padding: "14px 14px 14px 42px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                fontSize: "15px",
+                boxSizing: "border-box",
+                outline: "none",
+                transition: "border-color 0.2s",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "#000")}
+              onBlur={(e) => (e.target.style.borderColor = "#ddd")}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || successMessage}
+            style={{
+              width: "100%",
+              padding: "14px",
+              background: isLoading || successMessage ? "#666" : "#000",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: isLoading || successMessage ? "not-allowed" : "pointer",
+              transition: "background 0.2s",
+            }}
+          >
+            {isLoading ? "Please wait..." : successMessage ? "Redirecting..." : "Continue"}
+          </button>
+
+          <p
+            style={{
+              textAlign: "center",
+              margin: "16px 0 0",
+              fontSize: "12px",
+              color: "#888",
+            }}
+          >
+            We'll use your phone number to identify you
+          </p>
+        </form>
+
+        {/* Footer */}
+        <div
+          style={{
+            padding: "16px 24px",
+            background: "#f5f5f5",
+            textAlign: "center",
+            fontSize: "12px",
+            color: "#666",
+          }}
+        >
+          By continuing, you agree to DripCo's{" "}
+          <a href="#" style={{ color: "#000", textDecoration: "none" }}>
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="#" style={{ color: "#000", textDecoration: "none" }}>
+            Privacy Policy
+          </a>
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default DripLoginPopup;

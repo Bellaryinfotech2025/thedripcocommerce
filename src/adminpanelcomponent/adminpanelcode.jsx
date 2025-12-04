@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../adminpanelcomponent/adminpanel.css';
 
-const API_BASE = "http://localhost:4646";
+const API_BASE = "http://195.35.45.56:4646";
 
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +29,7 @@ const AdminPanel = () => {
   // Login
   const handleLogin = (e) => {
     e.preventDefault();
-    if (loginPassword === "dripcoadmin123") { // Change this or make secure later
+    if (loginPassword === "dripcoshanawazadmin11") { // Change this or make secure later
       setIsLoggedIn(true);
     } else {
       alert("Wrong password!");

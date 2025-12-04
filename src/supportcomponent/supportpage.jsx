@@ -8,23 +8,19 @@ const SupportPage = () => {
   const categories = [
     {
       id: 'ORDER_AND_PAYMENT',
-      name: 'ORDER AND PAYMENT',
-      icon: '📦'
+       
     },
     {
       id: 'ORDER_TRACKING',
-      name: 'ORDER TRACKING',
-      icon: '🚚'
+      
     },
     {
       id: 'REFUNDS',
-      name: 'REFUNDS, RETURNS & EXCHANGE',
-      icon: '🛍️'
+      
     },
     {
       id: 'MISCELLANEOUS',
-      name: 'MISCELLANEOUS',
-      icon: '🎁'
+       
     }
   ];
 
@@ -108,7 +104,7 @@ const SupportPage = () => {
           <div className="contact-card">
             <div className="card-icon">📞</div>
             <h3>SUPPORT FOR ONLINE PURCHASE</h3>
-            <p className="phone-number">8105905501</p>
+            <p className="phone-number">8125505568</p>
             <p>7 DAYS A WEEK</p>
             <p>24*7</p>
           </div>
@@ -123,26 +119,16 @@ const SupportPage = () => {
           <div className="contact-card">
             <h3>FOR STORE RELATED QUERIES</h3>
             <p className="highlight-text">CONTACT NUMBER: 8125505568</p>
-            <p className="email-link"><a href="mailto:customerservice@ablbl.aadityabirla.com">CUSTOMERSERVICE@ABLBL.AADITYABIRLA.COM</a></p>
+            <p className="email-link"><a href="mailto:theedrip.co@gmail.com">Theedrip.co@gmail.com</a></p>
           </div>
 
-          <div className="contact-card">
-            <h3>FOR LEASING RELATED QUERIES</h3>
-            <p><a href="#" className="link">PLEASE CLICK HERE</a></p>
-            <h4>CORPORATE ADDRESS</h4>
-            <p>KH NO 118/110/1 BUILDING 2 DNYASHREE</p>
-            <p>TECHNOPOLIS YMLALUR POST, HAL OLD AIRPORT ROAD,</p>
-            <p>BENGALURU, KARNATAKA 560037</p>
-          </div>
+           
 
-          <div className="contact-card">
-            <h3>FOR FRANCHISEE RELATED QUERIES</h3>
-            <p><a href="#" className="link">PLEASE CLICK HERE</a></p>
-          </div>
+          
 
           <div className="contact-card">
             <h3>FOR GRIEVANCE OFFICER DETAILS</h3>
-            <p><a href="#" className="link">PLEASE CLICK HERE</a></p>
+            <p><a href="theedrip.co@gmail.com" className="link">PLEASE CLICK HERE</a></p>
           </div>
         </div>
       </section>

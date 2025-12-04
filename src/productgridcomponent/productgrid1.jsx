@@ -12,7 +12,7 @@ const Productlayout = () => {
   const [isVisible, setIsVisible] = useState(false)
   const navigate = useNavigate()
 
-  const tabs = ["PANT'S", "TSHIRT'S"]
+  const tabs = ["T-SHIRTS", "HOODIES"]
 
   // Each product has its OWN images now — no sharing!
   const products = [

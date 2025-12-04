@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import axios from "axios";
 
-const my_order_url = "http://localhost:6161/api/v2";
+const my_order_url = "http://195.35.45.56:6161/api/v2";
 
 const MyOrders = ({ onLogout }) => {
   const [currentView, setCurrentView] = useState("account");

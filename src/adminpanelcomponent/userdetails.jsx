@@ -8,7 +8,7 @@ const UserDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = "http://localhost:4646/api/v2/users";
+  const API_URL = "http://195.35.45.56:4646/api/v2/users";
 
   useEffect(() => {
     fetchUsers();
@@ -66,6 +66,7 @@ const UserDetail = () => {
 
   return (
     <div className="user-detail-container">
+    <br/><br/><br/> <br/><br/>
       <div className="header-section">
         <h1 className="title">Drip Co. Elite Members</h1>
         <p className="subtitle">Exclusive Directory • {users.length} Members</p>

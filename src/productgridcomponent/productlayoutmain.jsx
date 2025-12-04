@@ -3,7 +3,7 @@ import "../productgridcomponent/productlayout.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-const API_BASE = "http://localhost:4646";
+const API_BASE = "http://195.35.45.56:4646";
 
 const ProductlayoutMain = () => {
   const [activeTab, setActiveTab] = useState("PANT'S");
