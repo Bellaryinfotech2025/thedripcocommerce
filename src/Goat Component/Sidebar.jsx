@@ -3,6 +3,8 @@ import React from 'react';
 import { FaTruck, FaChevronRight, FaChevronLeft, FaUser } from 'react-icons/fa';
 import logo from '../assets/logo.jpg';
 import { Link } from 'react-router-dom';
+ 
+
 
 const Sidebar = ({ closeSidebar }) => {
   return (
@@ -23,11 +25,11 @@ const Sidebar = ({ closeSidebar }) => {
           </div>
           <div className="welcome-text">
             <h3>WELCOME to THE DripCo</h3>
-            <p>Enjoy a tailored shopping experience.</p>
+            <p>Go ahead and treat yourself — happy shopping!</p>
           </div>
         </div>
 
-        <button className="login-button">LOG IN / SIGN UP</button>
+        
 
         <div className="express-delivery-banner">
           <FaTruck className="delivery-icon" />
@@ -44,7 +46,7 @@ const Sidebar = ({ closeSidebar }) => {
         <ul className="sidebar-menu">
           <Link to="/myaccount" style={{textDecoration:'none'}}>
           <li className="menu-item">
-            <span>My Account</span>
+            <span style={{textDecoration:'none'}}>My Account</span>
             <FaChevronRight className="menu-icon" />
           </li>
           </Link>
@@ -53,21 +55,21 @@ const Sidebar = ({ closeSidebar }) => {
             <FaChevronRight className="menu-icon" />
           </li>
           <li className="menu-item">
-            <span>MEN</span>
+            <span>My Orders</span>
             <FaChevronRight className="menu-icon" />
           </li>
           <li className="menu-item">
-            <span>WOMEN</span>
+            <span>Track My Order</span>
             <FaChevronRight className="menu-icon" />
           </li>
+          <Link to="/supportdripco" style={{ textDecoration: "none" }}>
           <li className="menu-item">
-            <span>GIRLS</span>
+            <span>Support</span>
             <FaChevronRight className="menu-icon" />
           </li>
-          <li className="menu-item">
-            <span>BOYS</span>
-            <FaChevronRight className="menu-icon" />
-          </li>
+          </Link>
+          
+           
            
           
            

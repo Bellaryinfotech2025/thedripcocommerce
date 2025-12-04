@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { FaPhoneAlt, FaUser, FaHeart, FaShoppingBag, FaBars, FaBoxOpen, FaSignOutAlt } from "react-icons/fa"
@@ -84,7 +82,7 @@ const Navbar = ({ toggleSidebar }) => {
           <div className="more-brands-container">
             <button className="more-brands-btn">The DripCo.store</button>
             <button className="mobile-cart-btn" onClick={openBag}>
-              <FaShoppingBag className="icon" style={{ color: "#ffffff" }} />
+              <FaShoppingBag style={{ color: "#ffffff" }} />
               {getTotalItems() > 0 && <span className="cart-badge">{getTotalItems()}</span>}
             </button>
           </div>
@@ -92,18 +90,18 @@ const Navbar = ({ toggleSidebar }) => {
           <div className="top-nav-right">
             <Link to="/supportdripco" style={{ textDecoration: "none" }}>
               <button className="top-nav-btn">
-                <FaPhoneAlt className="icon" /> SUPPORT
+                <FaPhoneAlt/> SUPPORT
               </button>
             </Link>
 
             <button className="top-nav-btn" onClick={() => setShowLoginPopup(!showLoginPopup)}>
-              <FaUser className="icon" /> {isLoggedIn ? "Account" : "Login"}
+              <FaUser/> {isLoggedIn ? "Account" : "Login"}
             </button>
             <button className="top-nav-btn wishlist">
-              <FaHeart className="icon" />
+              <FaHeart/>
             </button>
             <button className="top-nav-btn cart" onClick={openBag}>
-              <FaShoppingBag className="icon" />
+              <FaShoppingBag/>
               {getTotalItems() > 0 && <span className="cart-badge">{getTotalItems()}</span>}
             </button>
           </div>
