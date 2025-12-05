@@ -37,6 +37,8 @@ import AdminUserRelationshipWrapper from "./adminpanelcomponent/adminuserrelatio
 import CheckoutPage from "./checkoutpaymentcomponent/checkoutpagecode.jsx";
 import PaymentDetails from "./adminpanelcomponent/paymentdetaisuser.jsx";
 import AdminDashboardUI from "./adminpanelcomponent/adminpaymentstatus.jsx";
+import TermsAndCondition from "./termsandaboutcomponent/termsandconditions.jsx";
+import AboutDrip from "./termsandaboutcomponent/aboutdripco.jsx";
 
 /* ---------- ProductRouter (OLD - keep exactly as it is) ---------- */
  
@@ -109,6 +111,8 @@ function App() {
 
                      <Route path="/orders/U3VwZXIgc2Vjc//mV0IEFQSSBkYXRhOiB7Im5hb=50489WUiOiJKb2huIiwgInJvbGUiOiJhZG1pbiJ9" element={<AdminUserRelationshipWrapper />} />  {/*product id admin data */}
 
+ <Route path="/terms&conditionsdripco" element={<TermsAndCondition />} />
+  <Route path="/aboutdripcostore" element={<AboutDrip />} />
 
             </Routes>
           </div>

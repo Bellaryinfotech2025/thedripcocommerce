@@ -1,357 +1,162 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+ 
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-}
+ 
 
-.support-page {
-  width: 100%;
-  background-color: #ffffff;
-}
+.jasmine-garden { width: 100%; background: #fff; }
 
-/* Header Section */
-.support-header {
-  background-color: #1a1a1a;
-  padding: 60px 20px;
-  text-align: center;
-  color: #ffffff;
-}
-
-.support-header h1 {
-  font-size: 48px;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
+/* Header */
+.hibiscus-banner { background: #0f0f0f; padding: 70px 20px; text-align: center; color: #fff; }
+.marigold-wrapper { max-width: 1200px; margin: 0 auto; }
+.dahlia-title { font-size: 52px; font-weight: 700; letter-spacing: 3px; }
 
 /* Contact Section */
-.contact-section {
-  background-color: #1a1a1a;
-  padding: 40px 20px;
-  color: #ffffff;
-}
-
-.contact-cards {
-  max-width: 1200px;
+.lilac-contact-zone { background: #0f0f0f; padding: 50px 20px; color: #fff; }
+.orchid-grid {
+  max-width: 1300px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
 }
 
-.contact-card {
-  padding: 20px;
+.tulip-card {
+  background: rgba(255,255,255,0.05);
+  padding: 28px;
+  border-radius: 8px;
+  text-align: center;
 }
 
-.contact-card h3 {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-  color: #ffffff;
-}
-
-.contact-card h4 {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  color: #ffffff;
-}
-
-.contact-card p {
-  font-size: 13px;
-  line-height: 1.8;
-  color: #cccccc;
-  margin-bottom: 5px;
-}
-
-.card-icon {
-  font-size: 32px;
-  margin-bottom: 15px;
-}
-
-.phone-number {
-  color: #d4af37;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.highlight-text {
-  color: #d4af37;
-  font-weight: 600;
-}
-
-.email-link a,
-.link {
-  color: #d4af37;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.email-link a:hover,
-.link:hover {
-  text-decoration: underline;
-}
-
-.chat-link {
-  color: #d4af37;
-  font-weight: 600;
-  cursor: pointer;
-}
+.poppy-icon { font-size: 36px; margin-bottom: 16px; }
+.camellia-heading { font-size: 15px; font-weight: 700; margin: 16px 0; letter-spacing: 1px; }
+.iris-number { color: #d4af37; font-size: 18px; font-weight: 700; margin: 12px 0; }
+.zinnia-highlight { color: #d4af37; font-weight: 700; }
+.freesia-email a, .begonia-link { color: #d4af37; text-decoration: none; font-weight: 600; }
+.peony-chat { color: #d4af37; font-weight: 700; cursor: pointer; }
 
 /* Help Section */
-.help-section {
-  padding: 50px 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.help-section h2 {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  letter-spacing: 1px;
-}
-
-.dropdown-container {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.dropdown-select {
+.magnolia-help { padding: 60px 20px; text-align: center; background: #fafafa; }
+.hydrangea-title { font-size: 30px; font-weight: 700; margin-bottom: 32px; }
+.azalea-dropdown-wrapper { max-width: 600px; margin: 0 auto; }
+.wisteria-select {
   width: 100%;
-  padding: 15px 20px;
-  font-size: 15px;
-  border: 2px solid #333333;
-  border-radius: 4px;
-  background-color: #ffffff;
+  padding: 18px 24px;
+  font-size: 16px;
+  border: 2px solid #222;
+  border-radius: 6px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23333' d='M3 5l4 4 4-4z'/%3E%3C/svg%3E") no-repeat right 20px center;
   cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 20px center;
-  padding-right: 50px;
 }
+.wisteria-select:focus { outline: none; border-color: #d4af37; }
 
-.dropdown-select:focus {
-  outline: none;
-  border-color: #d4af37;
-}
+/* Quick Support */
+.cherryblossom-support { padding: 60px 20px; max-width: 1400px; margin: 0 auto; }
+.anemone-title { font-size: 26px; font-weight: 700; text-align: center; margin-bottom: 50px; }
 
-/* Quick Support Section */
-.quick-support-section {
-  padding: 50px 20px;
-  background-color: #ffffff;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.quick-support-section h2 {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 40px;
-  letter-spacing: 0.5px;
-}
-
-.support-container {
+.gardenia-layout {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 50px;
+  grid-template-columns: 320px 1fr;
+  gap: 60px;
 }
 
-/* Sidebar Categories */
-.support-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.category-button {
+/* Sidebar */
+.petunia-sidebar { display: flex; flex-direction: column; gap: 12px; }
+.geranium-btn {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
-  background-color: #ffffff;
-  border: none;
+  gap: 14px;
+  padding: 18px 22px;
+  background: #fff;
+  border: 1px solid #eee;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 2px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  color: #333333;
-  gap: 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
-
-.category-button.active {
-  background-color: #c49d3f;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.active-geranium {
+  background: #c49d3f !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(196, 157, 63, 0.3);
 }
+.geranium-btn:hover:not(.active-geranium) { background: #f8f8f8; }
+.chrysanthemum-icon { font-size: 20px; }
+.gladiolus-label { flex: 1; text-align: left; }
 
-.category-button:hover:not(.active) {
-  background-color: #f0f0f0;
-}
+/* FAQ */
+.clematis-faq { border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden; }
+.daffodil-item { border-bottom: 1px solid #eaeaea; }
+.daffodil-item:last-child { border-bottom: none; }
 
-.category-icon {
-  font-size: 18px;
-}
-
-.category-name {
-  text-align: left;
-}
-
-/* FAQ Container */
-.faq-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-top: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.faq-item {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.faq-item:last-child {
-  border-bottom: none;
-}
-
-.faq-question {
+.snapdragon-question {
   width: 100%;
+  padding: 22px 24px;
+  background: #fff;
+  border: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #ffffff;
-  border: none;
-  cursor: pointer;
   font-size: 15px;
   font-weight: 600;
-  color: #333333;
-  transition: all 0.3s ease;
   text-align: left;
-}
-
-.faq-question:hover {
-  background-color: #f9f9f9;
-}
-
-.chevron {
-  font-size: 12px;
-  color: #999999;
-  transition: transform 0.3s ease;
-  display: inline-block;
-}
-
-.chevron.open {
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  padding: 20px;
-  background-color: #fafafa;
-  color: #666666;
-  font-size: 14px;
-  line-height: 1.6;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 500px;
-  }
-}
-
-/* Chat Widget */
-.chat-widget {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 15px 20px;
-  border-radius: 50px;
-  font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  z-index: 1000;
+  transition: background 0.3s;
+}
+.snapdragon-question:hover { background: #fdfdfd; }
+
+.alyssum-arrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+.open-arrow { transform: rotate(180deg); }
+
+.phlox-answer {
+  padding: 24px;
+  background: #fcfcfc;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+  animation: bloom 0.4s ease;
+}
+
+@keyframes bloom {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 600px; }
+}
+
+/* Chat Bubble */
+.lotus-bubble {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #000;
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 9999;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: all 0.3s ease;
 }
-
-.chat-widget:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+.lotus-bubble:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
+.lotus-bubble::before { content: 'Bloom'; font-size: 20px; }
 
-.chat-widget::before {
-  content: '💬';
-  font-size: 18px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .support-container {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .support-header h1 {
-    font-size: 32px;
-  }
-
-  .help-section h2 {
-    font-size: 20px;
-  }
-
-  .contact-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .faq-question {
-    padding: 15px;
-    font-size: 14px;
-  }
-
-  .faq-answer {
-    padding: 15px;
-    font-size: 13px;
-  }
-
-  .chat-widget {
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 16px;
-    font-size: 12px;
-  }
+/* Responsive */
+@media (max-width: 868px) {
+  .gardenia-layout { grid-template-columns: 1fr; gap: 40px; }
+  .dahlia-title { font-size: 36px; }
+  .orchid-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .support-sidebar {
-    gap: 10px;
-  }
-
-  .category-button {
-    padding: 12px 15px;
-    font-size: 12px;
-  }
-
-  .quick-support-section h2 {
-    font-size: 18px;
-  }
+  .dahlia-title { font-size: 30px; }
+  .anemone-title { font-size: 22px; }
+  .lotus-bubble { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 13px; }
 }

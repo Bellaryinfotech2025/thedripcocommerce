@@ -5,6 +5,7 @@ import gpay from "../assets/gpay.png"
 import paytm from "../assets/paytm.png"
 import internet from "../assets/internet.png"
 import qrcode from "../assets/instgreamqrcode.jpg"
+import { Link } from 'react-router-dom';
 const Footer = ()=> {
   return (
     <footer className="footer">
@@ -13,23 +14,31 @@ const Footer = ()=> {
           <div className="footer-column customer-care">
             <h3>CUSTOMER CARE</h3>
             <ul>
+            <Link to="/myaccount" style={{textDecoration:'none'}}> 
               <li><a href="#">Track an Order</a></li>
+              </Link>
+              <Link to="/myaccount" style={{textDecoration:'none'}}> 
               <li><a href="#">Orders</a></li>
+              </Link>
+              <Link to="/supportdripco" style={{textDecoration:'none'}}> 
               <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Exchanges & Returns</a></li>
+              </Link>
+              <Link to="/myaccount" style={{textDecoration:'none'}}> 
               <li><a href="#">Delivery</a></li>
-              <li><a href="#">THE DRIPCO Premier</a></li>
+              </Link>
+              
               <li><a href="#">Payment</a></li>
+               
             </ul>
           </div>
           <div className="footer-column about-us">
             <h3>ABOUT US</h3>
             <ul>
-              <li><a href="#">About THE DRIPCO</a></li>
+              <li><Link to="/aboutdripcostore">About THE DRIPCO</Link></li>
               <li><a href="#">People & Planet</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Policy</a></li>
-              <li><a href="#">Affiliates</a></li>
+              <li><Link to="/terms&conditionsdripco">Terms & Conditions</Link></li>
+              <li><Link to="/terms&conditionsdripco">Policy</Link></li>
+             
             </ul>
           </div>
           <div className="footer-app-section">
