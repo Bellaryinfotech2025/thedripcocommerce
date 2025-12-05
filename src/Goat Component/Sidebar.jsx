@@ -24,7 +24,7 @@ const Sidebar = ({ closeSidebar }) => {
             <FaUser />
           </div>
           <div className="welcome-text">
-            <h3>WELCOME to THE DripCo</h3>
+            <h3>WELCOME to THE DripCo.store</h3>
             <p>Go ahead and treat yourself — happy shopping!</p>
           </div>
         </div>
@@ -46,26 +46,30 @@ const Sidebar = ({ closeSidebar }) => {
         <ul className="sidebar-menu">
           <Link to="/myaccount" style={{textDecoration:'none'}}>
           <li className="menu-item">
-            <span style={{textDecoration:'none'}}>My Account</span>
-            <FaChevronRight className="menu-icon" />
+            <span style={{textDecoration:'none',color:'black'}}>My Account</span>
+            
           </li>
           </Link>
           <li className="menu-item">
             <span>NEW ARRIVALS</span>
-            <FaChevronRight className="menu-icon" />
+            
           </li>
+          <Link to="/myaccount" style={{textDecoration:'none',color:'black'}}>
           <li className="menu-item">
             <span>My Orders</span>
-            <FaChevronRight className="menu-icon" />
+             
           </li>
+          </Link>
+           <Link to="/myaccount" style={{textDecoration:'none',color:'black'}}> 
           <li className="menu-item">
             <span>Track My Order</span>
-            <FaChevronRight className="menu-icon" />
+            
           </li>
-          <Link to="/supportdripco" style={{ textDecoration: "none" }}>
+          </Link>
+          <Link to="/supportdripco" style={{ textDecoration: "none",color:'black' }}>
           <li className="menu-item">
             <span>Support</span>
-            <FaChevronRight className="menu-icon" />
+             
           </li>
           </Link>
           

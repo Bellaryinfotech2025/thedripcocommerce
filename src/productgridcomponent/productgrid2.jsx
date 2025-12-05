@@ -1,19 +1,37 @@
-// src/productgridcomponent/productgrid2.jsx
 import { useState, useEffect } from "react";
 import "../productgridcomponent/productlayout.css";
-import image1 from "../assets/product5.png";
+
+// MAIN THUMBNAILS (shown in grid)
+import image1 from "../assets/Tshirtttttt333.jpg";
 import image2 from "../assets/product7.jpg";
 import image3 from "../assets/product6.png";
 import image4 from "../assets/product8.jpg";
+
+// 3 EXTRA IMAGES FOR EACH T-SHIRT (you can rename these files as you like)
+import t1_extra1  from "../assets/kakakakkakka.jpg";
+import t1_extra2  from "../assets/lalalalallal.jpg";
+import t1_extra3  from "../assets/Tshirtttttt333.jpg";
+
+import t2_extra1  from "../assets/Tshirtttttt333.jpg";
+import t2_extra2  from "../assets/Tshirtttttt333.jpg";
+import t2_extra3  from "../assets/Tshirtttttt333.jpg";
+
+import t3_extra1 from "../assets/Tshirtttttt333.jpg";
+import t3_extra2 from "../assets/Tshirtttttt333.jpg";
+import t3_extra3 from "../assets/Tshirtttttt333.jpg";
+
+import t4_extra1 from "../assets/Tshirtttttt333.jpg";
+import t4_extra2 from "../assets/Tshirtttttt333.jpg";
+import t4_extra3 from "../assets/Tshirtttttt333.jpg";
+
 import { useNavigate } from "react-router-dom";
 
 const Productlayout2 = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Only TSHIRT'S tab
   const tabs = ["TSHIRT'S"];
-  const [activeTab] = useState("TSHIRT'S"); // Always active
+  const [activeTab] = useState("TSHIRT'S");
 
   const products = [
     {
@@ -23,7 +41,7 @@ const Productlayout2 = () => {
       originalPrice: "1,299.00",
       discount: 54,
       mainImage: image1,
-      images: [image1, image1, image1, image1], // Only this t-shirt
+      gallery: [t1_extra1, t1_extra2, t1_extra3], // 3 UNIQUE extra images
       category: "TSHIRT'S",
       material: "100% Premium Cotton",
       fit: "Oversized Fit",
@@ -37,7 +55,7 @@ const Productlayout2 = () => {
       originalPrice: "1,399.00",
       discount: 53,
       mainImage: image2,
-      images: [image2, image2, image2, image2],
+      gallery: [t2_extra1, t2_extra2, t2_extra3],
       category: "TSHIRT'S",
       material: "Cotton + Poly Blend",
       fit: "Oversized",
@@ -51,7 +69,7 @@ const Productlayout2 = () => {
       originalPrice: "1,199.00",
       discount: 52,
       mainImage: image3,
-      images: [image3, image3, image3, image3],
+      gallery: [t3_extra1, t3_extra2, t3_extra3],
       category: "TSHIRT'S",
       material: "Bio-Washed Cotton",
       fit: "Relaxed Oversized",
@@ -65,7 +83,7 @@ const Productlayout2 = () => {
       originalPrice: "1,499.00",
       discount: 53,
       mainImage: image4,
-      images: [image4, image4, image4, image4],
+      gallery: [t4_extra1, t4_extra2, t4_extra3],
       category: "TSHIRT'S",
       material: "Heavy Cotton 240 GSM",
       fit: "Boxy Oversized",
@@ -78,15 +96,23 @@ const Productlayout2 = () => {
     setIsVisible(true);
   }, []);
 
+  // SEND mainImage + gallery correctly to product page
   const handleProductClick = (product) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/product/${product.id}`, { state: { product } });
+    navigate(`/product/${product.id}`, { 
+      state: { 
+        product: {
+          ...product,
+          mainImage: product.mainImage,
+          gallery: product.gallery || []
+        }
+      } 
+    });
   };
 
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
       
-      {/* Tabs - Only TSHIRT'S */}
       <div className="tabs-container">
         {tabs.map((tab) => (
           <button
@@ -98,7 +124,6 @@ const Productlayout2 = () => {
         ))}
       </div>
 
-      {/* Product Grid */}
       <div className="products-grid">
         {products.map((product, index) => (
           <div

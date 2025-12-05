@@ -49,7 +49,7 @@ const PaymentForm = ({
       setGeneratedOrderId(orderId)
       console.log("[v0] Generated orderId:", orderId)
 
-      const response = await fetch("http://195.35.45.56:4646/api/payments/create-order", {
+      const response = await fetch("http://localhost:4646/api/payments/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -113,7 +113,7 @@ const PaymentForm = ({
           console.log("[v0] Payment successful, verifying on backend...", response)
 
           try {
-            const verifyResponse = await fetch("http://195.35.45.56:4646/api/payments/verify-payment", {
+            const verifyResponse = await fetch("http://localhost:4646/api/payments/verify-payment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -363,8 +363,8 @@ const PaymentForm = ({
 
         <div style={{ display: "grid", gap: "10px", marginBottom: "20px" }}>
           {[
-            { value: "razorpay", label: "Razorpay (Card, UPI, Net Banking) - TEST MODE", icon: "💳" },
-            { value: "cod", label: "Cash on Delivery", icon: "💵" },
+            { value: "razorpay", label: "Razorpay (Card, UPI, Net Banking)", icon: "💳" },
+             
           ].map((method) => (
             <label
               key={method.value}

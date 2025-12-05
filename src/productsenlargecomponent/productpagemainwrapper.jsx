@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import "../productsenlargecomponent/productspagedesign.css"
 import { CiShoppingCart } from "react-icons/ci"
@@ -41,18 +39,17 @@ const Productpagemainwrapper = () => {
 
   if (!product) return null
 
-  // UNIVERSAL IMAGE LOGIC
-  const getImageUrl = () => {
-    if (product.imageUrl) return `${API_BASE}${product.imageUrl}`
-    if (product.images && product.images.length > 0) return product.images[0]
-    return "https://via.placeholder.com/600x800/222/fff?text=NO+IMAGE"
-  }
+  // MAIN IMAGE: Always the one shown in the product grid
+  const mainImage = product.mainImage || (product.images && product.images[0]) || "https://via.placeholder.com/600x800/222/fff?text=NO+IMAGE"
 
-  const mainImage = getImageUrl()
-  const img1 = mainImage
-  const img2 = product.images?.[1] || mainImage
-  const img3 = product.images?.[2] || mainImage
-  const img4 = product.images?.[3] || mainImage
+  // GALLERY: 3 extra unique images you define per product
+  const gallery = product.gallery || []
+
+  // Final 4 images for product page
+  const img1 = mainImage                                   // ← Main thumbnail from grid
+  const img2 = gallery[0] || mainImage                     // ← Extra Image 1
+  const img3 = gallery[1] || mainImage                     // ← Extra Image 2
+  const img4 = gallery[2] || mainImage                     // ← Extra Image 3
 
   // UNIVERSAL DATA
   const title = product.title || product.name || "Untitled Product"
@@ -104,12 +101,10 @@ const Productpagemainwrapper = () => {
     setIsLoggedIn(true)
     setShowLoginPopup(false)
 
-    // Sync cart with the new user
     if (syncCartOnLogin) {
       syncCartOnLogin(userId)
     }
 
-    // Add to cart immediately after login
     addToCartDirectly()
   }
 
@@ -129,8 +124,8 @@ const Productpagemainwrapper = () => {
         <section className="tuple_nation_section_three_container">
           <div className="tuple_nation_images_grid_triple_stag">
             <div className="tuple_nation_lifestyle_row">
-              <img src={img1 || "/placeholder.svg"} alt="Main" className="tuple_nation_product_image_triple_antelope" />
-              <img src={img2 || "/placeholder.svg"} alt="Side" className="tuple_nation_product_image_triple_antelope" />
+              <img src={img1} alt="Main" className="tuple_nation_product_image_triple_antelope" />
+              <img src={img2} alt="Side View" className="tuple_nation_product_image_triple_antelope" />
             </div>
           </div>
 
@@ -171,7 +166,7 @@ const Productpagemainwrapper = () => {
                 ))}
               </div>
               <button className="tuple_nation_size_chart_btn_wren" onClick={() => setShowSizeChart(!showSizeChart)}>
-                View Size Chart {showSizeChart ? "▲" : "▼"}
+                View Size Chart {showSizeChart ? "Up" : "Down"}
               </button>
               {showSizeChart && (
                 <div className="tuple_nation_size_chart_dropdown">
@@ -185,49 +180,18 @@ const Productpagemainwrapper = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>S</td>
-                        <td>28-30"</td>
-                        <td>40"</td>
-                        <td>38"</td>
-                      </tr>
-                      <tr>
-                        <td>M</td>
-                        <td>30-32"</td>
-                        <td>41"</td>
-                        <td>40"</td>
-                      </tr>
-                      <tr>
-                        <td>L</td>
-                        <td>32-34"</td>
-                        <td>42"</td>
-                        <td>42"</td>
-                      </tr>
-                      <tr>
-                        <td>XL</td>
-                        <td>34-36"</td>
-                        <td>43"</td>
-                        <td>44"</td>
-                      </tr>
-                      <tr>
-                        <td>XXL</td>
-                        <td>36-38"</td>
-                        <td>44"</td>
-                        <td>46"</td>
-                      </tr>
-                      <tr>
-                        <td>XXXL</td>
-                        <td>38-40"</td>
-                        <td>45"</td>
-                        <td>48"</td>
-                      </tr>
+                      <tr><td>S</td><td>28-30"</td><td>40"</td><td>38"</td></tr>
+                      <tr><td>M</td><td>30-32"</td><td>41"</td><td>40"</td></tr>
+                      <tr><td>L</td><td>32-34"</td><td>42"</td><td>42"</td></tr>
+                      <tr><td>XL</td><td>34-36"</td><td>43"</td><td>44"</td></tr>
+                      <tr><td>XXL</td><td>36-38"</td><td>44"</td><td>46"</td></tr>
+                      <tr><td>XXXL</td><td>38-40"</td><td>45"</td><td>48"</td></tr>
                     </tbody>
                   </table>
                 </div>
               )}
             </div>
 
-            {/* BUY NOW Button */}
             <button
               className="tuple_nation_buy_now_btn_cardinal"
               onClick={() => handleActionClick("buy")}
@@ -239,7 +203,6 @@ const Productpagemainwrapper = () => {
               BUY NOW
             </button>
 
-            {/* ADD TO BAG Button */}
             <div className="tuple_nation_action_buttons_tanager" style={{ position: "relative" }}>
               <button
                 className="tuple_nation_bag_btn_oriole"
@@ -252,7 +215,6 @@ const Productpagemainwrapper = () => {
                 <CiShoppingCart size={20} /> ADD TO BAG
               </button>
 
-              {/* Success Toast */}
               {showSuccessToast && (
                 <div
                   style={{
@@ -273,33 +235,24 @@ const Productpagemainwrapper = () => {
                     animation: "fadeInOut 3s forwards",
                   }}
                 >
-                  ✓ Added to bag! Size: {selectedSize}
+                  Added to bag! Size: {selectedSize}
                 </div>
               )}
             </div>
 
-            {/* Stock indicator */}
             {stock < 10 && stock > 0 && (
-              <p
-                style={{
-                  color: "#e65100",
-                  fontSize: "13px",
-                  margin: "12px 0 0",
-                  fontWeight: "500",
-                }}
-              >
-                ⚡ Only {stock} left in stock!
+              <p style={{ color: "#e65100", fontSize: "13px", margin: "12px 0 0", fontWeight: "500" }}>
+                Only {stock} left in stock!
               </p>
             )}
           </div>
         </section>
 
-        {/* Product Details Section */}
         <section className="tuple_nation_section_one_container">
           <div className="tuple_nation_images_grid_left">
             <div className="tuple_nation_side_by_side">
-              <img src={img3 || "/placeholder.svg"} alt="Front" className="tuple_nation_product_image_large_bear" />
-              <img src={img4 || "/placeholder.svg"} alt="Back" className="tuple_nation_product_image_large_bear" />
+              <img src={img3} alt="Detail View 1" className="tuple_nation_product_image_large_bear" />
+              <img src={img4} alt="Detail View 2" className="tuple_nation_product_image_large_bear" />
             </div>
           </div>
           <div className="tuple_nation_specs_panel_deer">
@@ -347,15 +300,11 @@ const Productpagemainwrapper = () => {
               <h3 className="tuple_nation_delivery_title_raven">DELIVERY OPTIONS</h3>
               <div className="tuple_nation_delivery_feature_swan">
                 <FaTruck size={22} />
-                <div>
-                  <div className="tuple_nation_feature_label_dragon">FREE SHIPPING*</div>
-                </div>
+                <div><div className="tuple_nation_feature_label_dragon">FREE SHIPPING*</div></div>
               </div>
               <div className="tuple_nation_delivery_feature_swan">
                 <FaSync size={20} />
-                <div>
-                  <div className="tuple_nation_feature_label_dragon">NO RETURN/EXCHANGE FOR CUSTOM PRODUCTS</div>
-                </div>
+                <div><div className="tuple_nation_feature_label_dragon">NO RETURN/EXCHANGE FOR CUSTOM PRODUCTS</div></div>
               </div>
               <div className="tuple_nation_delivery_feature_swan">
                 <FaStore size={20} />
@@ -372,7 +321,6 @@ const Productpagemainwrapper = () => {
 
         <ReutrnsCode />
 
-        {/* Size Selection Toast */}
         {showSizeToast && (
           <div
             style={{
@@ -390,12 +338,11 @@ const Productpagemainwrapper = () => {
               fontSize: "15px",
             }}
           >
-            ⚠️ Please select a size first!
+            Please select a size first!
           </div>
         )}
       </div>
 
-      {/* Login Popup */}
       {showLoginPopup && (
         <DripLoginPopup onClose={() => setShowLoginPopup(false)} onRegisterSuccess={handleRegisterSuccess} />
       )}
