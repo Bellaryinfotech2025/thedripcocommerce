@@ -40,6 +40,8 @@ import AdminDashboardUI from "./adminpanelcomponent/adminpaymentstatus.jsx";
 import TermsAndCondition from "./termsandaboutcomponent/termsandconditions.jsx";
 import AboutDrip from "./termsandaboutcomponent/aboutdripco.jsx";
 
+
+import NewArrivalAsNew from "./newarraivalscomponent/newarraivalsmain.jsx";
 /* ---------- ProductRouter (OLD - keep exactly as it is) ---------- */
  
 
@@ -114,6 +116,8 @@ function App() {
  <Route path="/terms&conditionsdripco" element={<TermsAndCondition />} />
   <Route path="/aboutdripcostore" element={<AboutDrip />} />
 
+
+<Route path="/newarraivalsdripco" element={<NewArrivalAsNew />} />
             </Routes>
           </div>
 

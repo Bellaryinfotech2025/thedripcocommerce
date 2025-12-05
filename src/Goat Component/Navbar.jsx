@@ -241,7 +241,7 @@ const Navbar = ({ toggleSidebar }) => {
                 <p>{isLoggedIn ? "Manage your DripCo account" : "Treat yourself with DripCo."}</p>
                 {!isLoggedIn && (
                   <Link to="/login" onClick={() => setShowLoginPopup(false)}>
-                    <button className="login-signup-btn">Sign In / Create Account</button>
+                    <button className="login-signup-btn">Hi!</button>
                   </Link>
                 )}
               </div>
