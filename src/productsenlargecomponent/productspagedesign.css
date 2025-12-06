@@ -802,3 +802,89 @@
   }
 }
 
+
+     
+        .tuple_nation_mobile_slider {
+          display: none;
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          background: #f5f1e8;
+        }
+
+        .tuple_nation_slider_inner {
+          display: flex;
+          transition: transform 0.4s ease-in-out;
+          width: 100%;
+        }
+
+        .tuple_nation_slide {
+          min-width: 100%;
+        }
+
+        .tuple_nation_mobile_image {
+          width: 100%;
+          height: auto;
+          max-height: 80vh;
+          object-fit: contain;
+        }
+
+        .tuple_nation_slider_dots {
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          padding: 12px 0;
+          background: rgba(0,0,0,0.05);
+        }
+
+        .tuple_nation_dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #999;
+          cursor: pointer;
+        }
+
+        .tuple_nation_dot_active {
+          background: #000;
+        }
+
+        .tuple_nation_success_toast,
+        .tuple_nation_error_toast {
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 14px 32px;
+          border-radius: 50px;
+          font-weight: bold;
+          z-index: 9999;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+          font-size: 15px;
+          animation: fadeInOut 3s forwards;
+        }
+
+        .tuple_nation_success_toast {
+          background: #28a745;
+          color: white;
+        }
+
+        .tuple_nation_error_toast {
+          background: #ff4d4f;
+          color: white;
+        }
+
+        @keyframes fadeInOut {
+          0%, 100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+          15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+          .tuple_nation_mobile_slider {
+            display: block;
+          }
+          .tuple_nation_desktop_only {
+            display: none !important;
+          }
+        }
+      
