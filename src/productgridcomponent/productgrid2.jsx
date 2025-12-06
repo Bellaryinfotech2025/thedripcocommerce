@@ -21,7 +21,7 @@ import t3_extra2 from "../assets/kkwjfghc.jpg";
 import t3_extra3 from "../assets/sdsdseeee.jpg";
 
 import t4_extra1 from "../assets/akkakamjxfiho.jpg";
-import t4_extra2 from "../assets/IMG_59937897.jpg";
+import t4_extra2 from "../assets/akkakamjxfiho.jpg";
 import t4_extra3 from "../assets/awjdsfnksdjfn.jpg";    
 
 import { useNavigate } from "react-router-dom";
