@@ -3,7 +3,7 @@ import "../productgridcomponent/productlayout.css";
 
 // MAIN THUMBNAILS (shown in grid)
 import image1 from "../assets/Tshirtttttt333.jpg";
-import image2 from "../assets/product7.jpg";
+import image2 from "../assets/asasass.jpg";
 import image3 from "../assets/product6.png";
 import image4 from "../assets/product8.jpg";
 
@@ -12,9 +12,9 @@ import t1_extra1  from "../assets/kakakakkakka.jpg";
 import t1_extra2  from "../assets/lalalalallal.jpg";
 import t1_extra3  from "../assets/Tshirtttttt333.jpg";
 
-import t2_extra1  from "../assets/Tshirtttttt333.jpg";
-import t2_extra2  from "../assets/Tshirtttttt333.jpg";
-import t2_extra3  from "../assets/Tshirtttttt333.jpg";
+import t2_extra1  from "../assets/jzzzzz.jpg";
+import t2_extra2  from "../assets/IMG_6015.png";
+import t2_extra3  from "../assets/AQAQAQ.jpg";
 
 import t3_extra1 from "../assets/Tshirtttttt333.jpg";
 import t3_extra2 from "../assets/Tshirtttttt333.jpg";
@@ -39,7 +39,7 @@ const Productlayout2 = () => {
       name: "DRIPCO OVERSIZED ANIME EDITION TSHIRT - SAIYAN",
       currentPrice: "599.00",
       originalPrice: "1,299.00",
-      discount: 54,
+      discount: 50,
       mainImage: image1,
       gallery: [t1_extra1, t1_extra2, t1_extra3], // 3 UNIQUE extra images
       category: "TSHIRT'S",
@@ -51,9 +51,9 @@ const Productlayout2 = () => {
     {
       id: 6,
       name: "DRIPCO STREETWEAR REFLECTIVE TSHIRT - TYPHOON",
-      currentPrice: "649.00",
-      originalPrice: "1,399.00",
-      discount: 53,
+      currentPrice: "1499.00",
+      originalPrice: "2999.00",
+      discount: 50,
       mainImage: image2,
       gallery: [t2_extra1, t2_extra2, t2_extra3],
       category: "TSHIRT'S",
