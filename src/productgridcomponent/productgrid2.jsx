@@ -4,8 +4,8 @@ import "../productgridcomponent/productlayout.css";
 // MAIN THUMBNAILS (shown in grid)
 import image1 from "../assets/Tshirtttttt333.jpg";
 import image2 from "../assets/asasass.jpg";
-import image3 from "../assets/product6.png";
-import image4 from "../assets/product8.jpg";
+import image3 from "../assets/backview.jpg";
+import image4 from "../assets/IMG_5861789.png";
 
 // 3 EXTRA IMAGES FOR EACH T-SHIRT (you can rename these files as you like)
 import t1_extra1  from "../assets/kakakakkakka.jpg";
@@ -16,13 +16,13 @@ import t2_extra1  from "../assets/jzzzzz.jpg";
 import t2_extra2  from "../assets/IMG_6015.png";
 import t2_extra3  from "../assets/AQAQAQ.jpg";
 
-import t3_extra1 from "../assets/Tshirtttttt333.jpg";
-import t3_extra2 from "../assets/Tshirtttttt333.jpg";
-import t3_extra3 from "../assets/Tshirtttttt333.jpg";
+import t3_extra1 from "../assets/jajajaaaq.jpg";
+import t3_extra2 from "../assets/kkwjfghc.jpg";
+import t3_extra3 from "../assets/sdsdseeee.jpg";
 
-import t4_extra1 from "../assets/Tshirtttttt333.jpg";
-import t4_extra2 from "../assets/Tshirtttttt333.jpg";
-import t4_extra3 from "../assets/Tshirtttttt333.jpg";
+import t4_extra1 from "../assets/akkakamjxfiho.jpg";
+import t4_extra2 from "../assets/IMG_59937897.jpg";
+import t4_extra3 from "../assets/awjdsfnksdjfn.jpg";    
 
 import { useNavigate } from "react-router-dom";
 
@@ -65,16 +65,16 @@ const Productlayout2 = () => {
     {
       id: 7,
       name: "DRIPCO MINIMAL BLACK CARNATION TSHIRT",
-      currentPrice: "579.00",
-      originalPrice: "1,199.00",
-      discount: 52,
+      currentPrice: "699.00",
+      originalPrice: "1499.00",
+      discount: 50,
       mainImage: image3,
       gallery: [t3_extra1, t3_extra2, t3_extra3],
       category: "TSHIRT'S",
       material: "Bio-Washed Cotton",
       fit: "Relaxed Oversized",
       color: "Jet Black",
-      description: "Clean. Minimal. Deadly. The Carnation series — subtle logo, maximum drip."
+      description: "Crafted from 100% ultra-soft 240 GSM cotton, this premium oversized tee is designed for those who want their style to feel personal, intentional, and unmistakably theirs. Built with a smooth, heavyweight structure, it holds its shape while delivering everyday comfort and a luxury hand-feel.The front features a clean and minimal THE DRIP.co logo, keeping the aesthetic sharp and elevated.The back transforms the tee into a fully custom piece — upload your photo and add your name or custom text, making every shirt one-of-one. Paired with our “ONLY YOU” and “WANNA BE YOURS” typography layout, it becomes a bold blend of romance, identity, and modern street design.Whether it’s for you, your partner, or someone you want to make feel special, this tee turns memories into wearable art.Details:•	240 GSM premium full-cotton fabric•	Oversized fit for a clean streetwear silhouette•	Customizable back print: your photo + your text•	High-resolution graphic layout for a crisp, modern look•	Breathable, durable, and built for all-day comfort•	Minimal front logo for a refined finishA perfect gift, a personal statement, and a timeless piece — all in one custom tee."
     },
     {
       id: 8,
