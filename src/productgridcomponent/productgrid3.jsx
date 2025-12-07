@@ -11,7 +11,7 @@ import image4 from "../assets/product17.png";
 // EXTRA IMAGES FOR EACH PRODUCT (3 unique per t-shirt)
 import t1_extra1 from "../assets/lmjhaskf.jpg";
 import t1_extra2 from "../assets/meshiwq.jpg";
-import t1_extra3 from "../assets/lmjhaskf.jpg"; // replace with actual
+import t1_extra3 from "../assets/lmjhaskf.jpg";  
 
 import t2_extra1 from "../assets/lmjhaskf.jpg";
 import t2_extra2 from "../assets/lmjhaskf.jpg";
