@@ -1,17 +1,36 @@
-// src/productgridcomponent/productgrid3.jsx
+// src/productgridcomponent/Productlayout3.jsx
 import { useState, useEffect } from "react";
 import "../productgridcomponent/productlayout.css";
-import image1 from "../assets/product15.png";
+
+// MAIN THUMBNAILS (shown in grid)
+import image1 from "../assets/oqojcgrka.jpg";
 import image2 from "../assets/product13.png";
 import image3 from "../assets/product16.png";
 import image4 from "../assets/product17.png";
+
+// EXTRA IMAGES FOR EACH PRODUCT (3 unique per t-shirt)
+import t1_extra1 from "../assets/lmjhaskf.jpg";
+import t1_extra2 from "../assets/meshiwq.jpg";
+import t1_extra3 from "../assets/lmjhaskf.jpg"; // replace with actual
+
+import t2_extra1 from "../assets/lmjhaskf.jpg";
+import t2_extra2 from "../assets/lmjhaskf.jpg";
+import t2_extra3 from "../assets/lmjhaskf.jpg";
+
+import t3_extra1 from "../assets/lmjhaskf.jpg";
+import t3_extra2 from "../assets/lmjhaskf.jpg";
+import t3_extra3 from "../assets/lmjhaskf.jpg";
+
+import t4_extra1 from "../assets/lmjhaskf.jpg";
+import t4_extra2 from "../assets/lmjhaskf.jpg";
+import t4_extra3 from "../assets/lmjhaskf.jpg";
+
 import { useNavigate } from "react-router-dom";
 
 const Productlayout3 = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Fixed: Only TSHIRT'S tab and always active
   const [activeTab] = useState("TSHIRT'S");
 
   const products = [
@@ -22,12 +41,12 @@ const Productlayout3 = () => {
       originalPrice: "1,399.00",
       discount: 54,
       mainImage: image1,
-      images: [image1, image1, image1, image1],
+      gallery: [t1_extra1, t1_extra2, t1_extra3], // 3 unique extras
       category: "TSHIRT'S",
       material: "240 GSM Premium Cotton",
       fit: "Oversized Drop Shoulder",
       color: "Black",
-      description: "The ultimate Goku tribute. High-quality puff print that pops. Built for warriors."
+      description: "The ultimate Goku tribute. High-quality puff print that pops off the fabric. Built for warriors who train hard and drip harder. Durable print, bold energy, legendary vibes."
     },
     {
       id: 10,
@@ -36,12 +55,12 @@ const Productlayout3 = () => {
       originalPrice: "1,499.00",
       discount: 53,
       mainImage: image2,
-      images: [image2, image2, image2, image2],
+      gallery: [t2_extra1, t2_extra2, t2_extra3],
       category: "TSHIRT'S",
       material: "Cotton + Reflective Ink",
       fit: "Boxy Oversized",
       color: "Pitch Black",
-      description: "Disappear in light, glow in dark. Reflective print that hits different at night."
+      description: "Disappear in daylight. Dominate at night. Full reflective print activates under flash or low light. Made for night riders, photographers, and those who move in silence."
     },
     {
       id: 11,
@@ -50,12 +69,12 @@ const Productlayout3 = () => {
       originalPrice: "1,299.00",
       discount: 54,
       mainImage: image3,
-      images: [image3, image3, image3, image3],
+      gallery: [t3_extra1, t3_extra2, t3_extra3],
       category: "TSHIRT'S",
       material: "Bio-Washed Supima Cotton",
-      fit: "Relaxed Fit",
+      fit: "Relaxed Oversized",
       color: "Deep Black",
-      description: "Less is more. Ultra-soft fabric with subtle embroidered logo. Pure class."
+      description: "Luxury in simplicity. Crafted from rare Supima cotton with tonal embroidered logo. Feather-soft feel, premium drape, timeless silhouette. For those who speak softly but carry big style."
     },
     {
       id: 12,
@@ -64,12 +83,12 @@ const Productlayout3 = () => {
       originalPrice: "1,599.00",
       discount: 53,
       mainImage: image4,
-      images: [image4, image4, image4, image4],
+      gallery: [t4_extra1, t4_extra2, t4_extra3],
       category: "TSHIRT'S",
       material: "Heavy Acid-Washed Cotton",
       fit: "Vintage Oversized",
       color: "Faded Black",
-      description: "Hand-dyed acid wash effect. Each piece is unique. True vintage drip."
+      description: "Hand-dyed acid wash treatment. No two pieces are exactly alike. Distressed edges, raw energy, retro soul. Wear your rebellion. Age like fine wine."
     },
   ];
 
@@ -77,15 +96,24 @@ const Productlayout3 = () => {
     setIsVisible(true);
   }, []);
 
+  // Properly pass mainImage + full gallery to product page
   const handleProductClick = (product) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/product/${product.id}`, { state: { product } });
+    navigate(`/product/${product.id}`, {
+      state: {
+        product: {
+          ...product,
+          mainImage: product.mainImage,
+          gallery: product.gallery || []
+        }
+      }
+    });
   };
 
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
       
-      {/* Tabs - Only TSHIRT'S */}
+      {/* Fixed Single Active Tab */}
       <div className="tabs-container">
         <button className="tab-button active">
           TSHIRT'S
@@ -115,6 +143,7 @@ const Productlayout3 = () => {
                   src={product.mainImage}
                   alt={product.name}
                   className="product-image"
+                  loading="lazy"
                 />
                 <div className="quick-view-overlay">
                   <span>QUICK VIEW</span>
