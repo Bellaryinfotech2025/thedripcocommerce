@@ -171,3 +171,43 @@
     gap: 16px;
   }
 }
+/* Out of Stock Styling */
+.product-card-wrapper.out-of-stock {
+  pointer-events: none;
+  opacity: 0.75;
+  position: relative;
+}
+
+.out-of-stock-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff2d2d;
+  color: white;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(255, 45, 45, 0.4);
+  transform: rotate(-12deg);
+}
+
+.product-image.dimmed {
+  filter: grayscale(80%) brightness(0.7);
+  transition: all 0.3s ease;
+}
+
+.sold-out-text {
+  margin-top: 8px;
+  color: #ff2d2d;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Optional: Keep discount badge hidden when out of stock */
+.product-card-wrapper.out-of-stock .discount-badge {
+  display: none;
+}

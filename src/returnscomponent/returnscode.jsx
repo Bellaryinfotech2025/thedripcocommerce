@@ -25,7 +25,7 @@ const ReutrnsCode = () => {
             <FaMobile/>
           </div>
           <h3 className="dripcoreturn-title">CUSTOMER SUPPORT</h3>
-          <p className="dripcoreturn-desc">Reach us anytime: info@thedripco.store<br />WhatsApp +918125505568</p>
+          <p className="dripcoreturn-desc">Reach us anytime: theedrip.co@gmail.com<br />WhatsApp +918125505568</p>
         </div>
         <div className="dripcoreturn-item">
           <div className="dripcoreturn-icon dripcoreturn-happy">

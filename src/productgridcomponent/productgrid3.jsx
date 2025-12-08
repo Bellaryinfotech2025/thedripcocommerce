@@ -2,16 +2,16 @@
 import { useState, useEffect } from "react";
 import "../productgridcomponent/productlayout.css";
 
-// MAIN THUMBNAILS (shown in grid)
+// MAIN THUMBNAILS
 import image1 from "../assets/oqojcgrka.jpg";
 import image2 from "../assets/product13.png";
 import image3 from "../assets/product16.png";
 import image4 from "../assets/product17.png";
 
-// EXTRA IMAGES FOR EACH PRODUCT (3 unique per t-shirt)
+// EXTRA IMAGES (you can keep placeholders or real ones)
 import t1_extra1 from "../assets/lmjhaskf.jpg";
 import t1_extra2 from "../assets/meshiwq.jpg";
-import t1_extra3 from "../assets/lmjhaskf.jpg";  
+import t1_extra3 from "../assets/lmjhaskf.jpg";
 
 import t2_extra1 from "../assets/lmjhaskf.jpg";
 import t2_extra2 from "../assets/lmjhaskf.jpg";
@@ -31,22 +31,17 @@ const Productlayout3 = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
-  const [activeTab] = useState("TSHIRT'S");
-
   const products = [
     {
       id: 9,
       name: "DRIPCO LEGEND SERIES OVERSIZED TSHIRT - GOKU",
-      currentPrice: "649.00",
-      originalPrice: "1,399.00",
-      discount: 54,
+      currentPrice: "599.00",
+      originalPrice: "1,299.00",
+      discount: 50,
       mainImage: image1,
-      gallery: [t1_extra1, t1_extra2, t1_extra3], // 3 unique extras
+      gallery: [t1_extra1, t1_extra2, t1_extra3],
       category: "TSHIRT'S",
-      material: "240 GSM Premium Cotton",
-      fit: "Oversized Drop Shoulder",
-      color: "Black",
-      description: "The ultimate Goku tribute. High-quality puff print that pops off the fabric. Built for warriors who train hard and drip harder. Durable print, bold energy, legendary vibes."
+      inStock: true, // Available
     },
     {
       id: 10,
@@ -57,10 +52,7 @@ const Productlayout3 = () => {
       mainImage: image2,
       gallery: [t2_extra1, t2_extra2, t2_extra3],
       category: "TSHIRT'S",
-      material: "Cotton + Reflective Ink",
-      fit: "Boxy Oversized",
-      color: "Pitch Black",
-      description: "Disappear in daylight. Dominate at night. Full reflective print activates under flash or low light. Made for night riders, photographers, and those who move in silence."
+      inStock: false,  
     },
     {
       id: 11,
@@ -71,10 +63,7 @@ const Productlayout3 = () => {
       mainImage: image3,
       gallery: [t3_extra1, t3_extra2, t3_extra3],
       category: "TSHIRT'S",
-      material: "Bio-Washed Supima Cotton",
-      fit: "Relaxed Oversized",
-      color: "Deep Black",
-      description: "Luxury in simplicity. Crafted from rare Supima cotton with tonal embroidered logo. Feather-soft feel, premium drape, timeless silhouette. For those who speak softly but carry big style."
+      inStock: false, // OUT OF STOCK
     },
     {
       id: 12,
@@ -85,10 +74,7 @@ const Productlayout3 = () => {
       mainImage: image4,
       gallery: [t4_extra1, t4_extra2, t4_extra3],
       category: "TSHIRT'S",
-      material: "Heavy Acid-Washed Cotton",
-      fit: "Vintage Oversized",
-      color: "Faded Black",
-      description: "Hand-dyed acid wash treatment. No two pieces are exactly alike. Distressed edges, raw energy, retro soul. Wear your rebellion. Age like fine wine."
+      inStock: false, // OUT OF STOCK
     },
   ];
 
@@ -96,28 +82,26 @@ const Productlayout3 = () => {
     setIsVisible(true);
   }, []);
 
-  // Properly pass mainImage + full gallery to product page
   const handleProductClick = (product) => {
+    if (!product.inStock) return; // Prevent navigation if out of stock
+
     window.scrollTo({ top: 0, behavior: "smooth" });
     navigate(`/product/${product.id}`, {
       state: {
         product: {
           ...product,
           mainImage: product.mainImage,
-          gallery: product.gallery || []
-        }
-      }
+          gallery: product.gallery || [],
+        },
+      },
     });
   };
 
   return (
     <div className={`product-grid-container ${isVisible ? "visible" : ""}`}>
-      
-      {/* Fixed Single Active Tab */}
+      {/* Fixed Tab */}
       <div className="tabs-container">
-        <button className="tab-button active">
-          TSHIRT'S
-        </button>
+        <button className="tab-button active">TSHIRT'S</button>
       </div>
 
       {/* Product Grid */}
@@ -125,29 +109,40 @@ const Productlayout3 = () => {
         {products.map((product, index) => (
           <div
             key={product.id}
-            className="product-card-wrapper"
+            className={`product-card-wrapper ${!product.inStock ? "out-of-stock" : ""}`}
             onClick={() => handleProductClick(product)}
             style={{
               transitionDelay: `${index * 0.15}s`,
-              cursor: "pointer"
+              cursor: product.inStock ? "pointer" : "not-allowed",
             }}
           >
             <div className="product-card">
               <div className="product-image-wrapper">
-                {product.discount && (
-                  <div className="discount-badge">
-                    SAVE {product.discount}%
+                {/* Discount Badge */}
+                {product.discount && product.inStock && (
+                  <div className="discount-badge">SAVE {product.discount}%</div>
+                )}
+
+                {/* Out of Stock Ribbon */}
+                {!product.inStock && (
+                  <div className="out-of-stock-ribbon">
+                    <span>OUT OF STOCK</span>
                   </div>
                 )}
+
                 <img
                   src={product.mainImage}
                   alt={product.name}
-                  className="product-image"
+                  className={`product-image ${!product.inStock ? "dimmed" : ""}`}
                   loading="lazy"
                 />
-                <div className="quick-view-overlay">
-                  <span>QUICK VIEW</span>
-                </div>
+
+                {/* Quick View Overlay - only for in-stock */}
+                {product.inStock && (
+                  <div className="quick-view-overlay">
+                    <span>QUICK VIEW</span>
+                  </div>
+                )}
               </div>
 
               <div className="product-info">
@@ -156,6 +151,11 @@ const Productlayout3 = () => {
                   <span className="current-price">RS. {product.currentPrice}</span>
                   <span className="original-price">RS. {product.originalPrice}</span>
                 </div>
+
+                {/* Optional: Show "Sold Out" text below price */}
+                {!product.inStock && (
+                  <div className="sold-out-text">Currently Unavailable</div>
+                )}
               </div>
             </div>
           </div>

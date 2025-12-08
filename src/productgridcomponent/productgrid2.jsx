@@ -4,7 +4,7 @@ import "../productgridcomponent/productlayout.css";
 // MAIN THUMBNAILS (shown in grid)
 import image1 from "../assets/Tshirtttttt333.jpg";
 import image2 from "../assets/asasass.jpg";
-import image3 from "../assets/backview.jpg";
+import image3 from "../assets/sdsdseeee.jpg";
 import image4 from "../assets/IMG_5861789.png";
 
 // 3 EXTRA IMAGES FOR EACH T-SHIRT (you can rename these files as you like)
@@ -18,7 +18,7 @@ import t2_extra3  from "../assets/AQAQAQ.jpg";
 
 import t3_extra1 from "../assets/jajajaaaq.jpg";
 import t3_extra2 from "../assets/kkwjfghc.jpg";
-import t3_extra3 from "../assets/sdsdseeee.jpg";
+import t3_extra3 from "../assets/msxewu.jpg";
 
 import t4_extra1 from "../assets/akkakamjxfiho.jpg";
 import t4_extra2 from "../assets/akkakamjxfiho.jpg";
@@ -81,7 +81,7 @@ const Productlayout2 = () => {
       name: "DRIPCO MUTATION GLOW EDITION TSHIRT",
       currentPrice: "699.00",
       originalPrice: "1,499.00",
-      discount: 53,
+      discount: 50,
       mainImage: image4,
       gallery: [t4_extra1, t4_extra2, t4_extra3],
       category: "TSHIRT'S",

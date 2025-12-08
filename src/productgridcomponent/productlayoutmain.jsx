@@ -14,7 +14,7 @@ const ProductlayoutMain = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  const tabs = ["PANT'S", "TSHIRT'S"];
+  const tabs = ["TSHIRTS", "HOODIES"];
 
   // FETCH PRODUCTS FROM REAL BACKEND
   const fetchProducts = async () => {

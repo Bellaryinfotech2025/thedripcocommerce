@@ -1,162 +1,330 @@
- 
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
- 
-
-.jasmine-garden { width: 100%; background: #fff; }
-
-/* Header */
-.hibiscus-banner { background: #0f0f0f; padding: 70px 20px; text-align: center; color: #fff; }
-.marigold-wrapper { max-width: 1200px; margin: 0 auto; }
-.dahlia-title { font-size: 52px; font-weight: 700; letter-spacing: 3px; }
-
-/* Contact Section */
-.lilac-contact-zone { background: #0f0f0f; padding: 50px 20px; color: #fff; }
-.orchid-grid {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 35px;
+.luxury-support {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  min-height: 100vh;
 }
 
-.tulip-card {
-  background: rgba(255,255,255,0.05);
-  padding: 28px;
-  border-radius: 8px;
+/* Hero */
+.lux-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2848&auto=format&fit=crop') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-.poppy-icon { font-size: 36px; margin-bottom: 16px; }
-.camellia-heading { font-size: 15px; font-weight: 700; margin: 16px 0; letter-spacing: 1px; }
-.iris-number { color: #d4af37; font-size: 18px; font-weight: 700; margin: 12px 0; }
-.zinnia-highlight { color: #d4af37; font-weight: 700; }
-.freesia-email a, .begonia-link { color: #d4af37; text-decoration: none; font-weight: 600; }
-.peony-chat { color: #d4af37; font-weight: 700; cursor: pointer; }
-
-/* Help Section */
-.magnolia-help { padding: 60px 20px; text-align: center; background: #fafafa; }
-.hydrangea-title { font-size: 30px; font-weight: 700; margin-bottom: 32px; }
-.azalea-dropdown-wrapper { max-width: 600px; margin: 0 auto; }
-.wisteria-select {
-  width: 100%;
-  padding: 18px 24px;
-  font-size: 16px;
-  border: 2px solid #222;
-  border-radius: 6px;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23333' d='M3 5l4 4 4-4z'/%3E%3C/svg%3E") no-repeat right 20px center;
-  cursor: pointer;
+.lux-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1), transparent 70%);
 }
-.wisteria-select:focus { outline: none; border-color: #d4af37; }
 
-/* Quick Support */
-.cherryblossom-support { padding: 60px 20px; max-width: 1400px; margin: 0 auto; }
-.anemone-title { font-size: 26px; font-weight: 700; text-align: center; margin-bottom: 50px; }
+.lux-content {
+  position: relative;
+  z-index: 2;
+}
 
-.gardenia-layout {
+.lux-title {
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #d4af37;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+}
+
+.lux-subtitle {
+  font-size: 1.4rem;
+  margin-top: 16px;
+  color: #aaa;
+  letter-spacing: 2px;
+}
+
+.glow-line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  box-shadow: 0 0 20px #d4af37;
+}
+
+/* Contact Cards */
+.lux-contact-section {
+  padding: 100px 20px;
+  background: linear-gradient(to bottom, #0f0f0f, #0a0a0a);
+}
+
+.lux-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.lux-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 60px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
 }
 
-/* Sidebar */
-.petunia-sidebar { display: flex; flex-direction: column; gap: 12px; }
-.geranium-btn {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px 22px;
-  background: #fff;
-  border: 1px solid #eee;
-  cursor: pointer;
-  font-size: 14px;
+.lux-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.lux-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+}
+
+.gold-border {
+  border: 1px solid #d4af37 !important;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin: 16px 0;
+  color: #fff;
+}
+
+.highlight {
+  font-size: bold 1.5rem;
+  color: #d4af37;
+  margin: 12px 0;
+}
+
+.gold-link {
+  color: #d4af37;
+  text-decoration: none;
   font-weight: 600;
-  border-radius: 4px;
-  transition: all 0.3s ease;
 }
-.active-geranium {
-  background: #c49d3f !important;
-  color: #fff !important;
-  box-shadow: 0 4px 15px rgba(196, 157, 63, 0.3);
-}
-.geranium-btn:hover:not(.active-geranium) { background: #f8f8f8; }
-.chrysanthemum-icon { font-size: 20px; }
-.gladiolus-label { flex: 1; text-align: left; }
 
-/* FAQ */
-.clematis-faq { border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden; }
-.daffodil-item { border-bottom: 1px solid #eaeaea; }
-.daffodil-item:last-child { border-bottom: none; }
-
-.snapdragon-question {
-  width: 100%;
-  padding: 22px 24px;
-  background: #fff;
+.chat-btn {
+  margin-top: 16px;
+  padding: 12px 32px;
+  background: #d4af37;
+  color: #000;
   border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.chat-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+/* FAQ Section */
+.lux-faq-section {
+  padding: 120px 20px;
+  background: #0a0a0a;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.8rem;
+  color: #d4af37;
+  margin-bottom: 80px;
+  letter-spacing: 2px;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 60px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.category-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cat-btn {
+  position: relative;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #ccc;
+  padding: 20px 24px;
+  text-align: left;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.cat-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #d4af37;
+  color: #fff;
+}
+
+.cat-btn.active {
+  background: linear-gradient(135deg, #d4af37, #b8972e);
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.cat-icon {
+  margin-right: 14px;
+  font-size: 1.3em;
+}
+
+.active-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: #fff;
+}
+
+/* FAQ Items */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.faq-item {
+  background: rgba(20,20,20,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 28px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: left;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
-  font-weight: 600;
-  text-align: left;
   cursor: pointer;
   transition: background 0.3s;
 }
-.snapdragon-question:hover { background: #fdfdfd; }
 
-.alyssum-arrow {
-  font-size: 14px;
-  transition: transform 0.3s ease;
-}
-.open-arrow { transform: rotate(180deg); }
-
-.phlox-answer {
-  padding: 24px;
-  background: #fcfcfc;
-  color: #555;
-  font-size: 14px;
-  line-height: 1.7;
-  animation: bloom 0.4s ease;
+.faq-question:hover {
+  background: rgba(212, 175, 55, 0.1);
 }
 
-@keyframes bloom {
-  from { opacity: 0; max-height: 0; }
-  to { opacity: 1; max-height: 600px; }
+.arrow {
+  font-size: 1.4rem;
+  transition: transform 0.4s ease;
 }
 
-/* Chat Bubble */
-.lotus-bubble {
+.arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 28px 32px;
+  color: #bbbbbb;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.animate-in {
+  animation: fadeSlide 0.5s ease-out;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating Chat */
+.floating-chat {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
-  background: #000;
-  color: #fff;
-  padding: 16px 24px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  cursor: pointer;
-  z-index: 9999;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #d4af37, #b8972e);
+  color: #000;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+  z-index: 1000;
   transition: all 0.3s ease;
 }
-.lotus-bubble:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+.floating-chat:hover {
+  transform: scale(1.1);
+  width: 180px;
+  border-radius: 50px;
 }
-.lotus-bubble::before { content: 'Bloom'; font-size: 20px; }
+
+.chat-text {
+  display: none;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.floating-chat:hover .chat-text {
+  display: block;
+}
+
+.pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: 50%;
+  animation: pulseAnim 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
 
 /* Responsive */
-@media (max-width: 868px) {
-  .gardenia-layout { grid-template-columns: 1fr; gap: 40px; }
-  .dahlia-title { font-size: 36px; }
-  .orchid-grid { grid-template-columns: 1fr; }
+@media (max-width: 992px) {
+  .faq-layout { grid-template-columns: 1fr; }
+  .lux-title { font-size: 3.5rem; }
 }
 
-@media (max-width: 480px) {
-  .dahlia-title { font-size: 30px; }
-  .anemone-title { font-size: 22px; }
-  .lotus-bubble { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 13px; }
+@media (max-width: 768px) {
+  .lux-grid { grid-template-columns: 1fr; }
+  .lux-title { font-size: 2.8rem; }
+  .section-title { font-size: 2.2rem; }
 }

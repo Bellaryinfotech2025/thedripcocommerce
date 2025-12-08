@@ -2,131 +2,141 @@ import { useState } from 'react';
 import '../supportcomponent/designsupport.css';
 
 const SupportPage = () => {
-  const [activeCategory, setActiveCategory] = useState('lotus');
+  const [activeCategory, setActiveCategory] = useState('order');
   const [expandedItems, setExpandedItems] = useState({});
 
   const categories = [
-    { id: 'lotus', name: 'ORDER & PAYMENT', icon: 'Lotus' },
-    { id: 'sunflower', name: 'ORDER TRACKING', icon: 'Sunflower' },
-    { id: 'rose', name: 'REFUNDS & RETURNS', icon: 'Rose' },
-    { id: 'lavender', name: 'MISCELLANEOUS', icon: 'Lavender' }
+    { id: 'order', name: 'Order & Payment', icon: '✦' },
+    { id: 'tracking', name: 'Order Tracking', icon: '✈' },
+    { id: 'returns', name: 'Refunds & Returns', icon: '↻' },
+    { id: 'misc', name: 'General Queries', icon: '❖' }
   ];
 
-  const faqItems = [
-    { id: 1, question: 'How do I know my order is confirmed?', answer: 'Once your payment is authorized and your order is completed, you will receive an email and SMS confirming the order placement. You would be provided with the order number, details of the order and the amount you have paid.' },
-    { id: 2, question: 'How to check current status of my order?', answer: 'You can track your order status in real-time through your account dashboard or by clicking the tracking link provided in your confirmation email.' },
-    { id: 3, question: 'Do you take orders on phone calls?', answer: 'Yes, we accept phone orders. Please contact our support team during business hours for assistance with phone orders.' },
-    { id: 4, question: 'Do you deliver in my location?', answer: 'We deliver to most locations nationwide. Please enter your pincode during checkout to verify if we deliver to your area.' },
-    { id: 5, orchid: 'Can I add more items after placing the order?', answer: 'You can add more items to your order within a few minutes of placing it, before it enters processing. Please contact support immediately if needed.' },
-    { id: 6, question: 'How can I cancel my order?', answer: 'You can cancel your order from your account dashboard if it hasn\'t been shipped yet. Contact our support team for assistance with cancellations.' },
-    { id: 7, question: 'What payment methods are accepted?', answer: 'We accept all major payment methods including credit cards, debit cards, UPI, net banking, and digital wallets.' },
-    { id: 8, question: 'Are there any hidden charges?', answer: 'No hidden charges. All applicable taxes and delivery charges are clearly displayed before you finalize your payment.' },
-    { id: 9, question: 'My payment failed. What should I do?', answer: 'Please try again with the same or different payment method. If the issue persists, contact our support team for assistance.' },
-    { id: 10, question: 'My account was debited but order not confirmed?', answer: 'Please contact our support team immediately. We will investigate and process your order or issue a refund within 24-48 hours.' },
-    { id: 11, question: 'What happens to my loyalty points if payment fails?', answer: 'Loyalty points or credit points used during payment will be refunded back to your account immediately upon payment failure or order cancellation.' }
-  ];
+  const faqs = {
+    order: [
+      { id: 1, q: "How do I know my order is confirmed?", a: "You’ll receive an instant confirmation via email and SMS with your order number, details, and payment receipt." },
+      { id:2, q: "What payment methods do you accept?", a: "We accept all major cards, UPI, net banking, wallets (PhonePe, Paytm, Google Pay), and EMI options." },
+      { id:3, q: "Are there any hidden charges?", a: "Absolutely none. Taxes, shipping, and all fees are shown transparently before checkout." },
+      { id:4, q: "My payment failed but money was deducted?", a: "Don’t worry — the amount will auto-refund within 3–5 business days. Contact us with your transaction ID for instant help." },
+      { id:5, q: "Can I modify my order after placing it?", a: "Yes! Within 15 minutes of placing the order, reach out to us via chat or call — we’ll update it instantly." }
+    ],
+    tracking: [
+      { id:6, q: "How can I track my order?", a: "Check real-time status in your account dashboard or use the tracking link sent via email/SMS." },
+      { id:7, q: "When will my order be delivered?", a: "Standard delivery: 3–7 days | Express: 1–2 days (available in 18,000+ pincodes)." }
+    ],
+    returns: [
+      { id:8, q: "What is your return policy?", a: "30-day hassle-free returns. Item must be unused with original packaging." },
+      { id:9, q: "How do I initiate a return?", a: "Log in → My Orders → Select item → Click 'Return' → Schedule free pickup (free)." },
+      { id:10, q: "When will I get my refund?", a: "Refunds are processed within 48 hours of pickup. You’ll receive it in 3–5 business days." }
+    ],
+    misc: [
+      { id:11, q: "Do you have physical stores?", a: "Yes! Visit our flagship stores in Mumbai, Delhi, Bangalore & more. Find locations here." },
+      { id:12, q: "Can I place an order over phone?", a: "Absolutely. Call our VIP concierge at +91 81255 05568 — available 24×7." }
+    ]
+  };
 
-  const toggleItem = (id) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+  const currentFaqs = faqs[activeCategory] || [];
+
+  const toggleFaq = (id) => {
+    setExpandedItems(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
-    <div className="jasmine-garden">
-      {/* Header */}
-      <header className="hibiscus-banner">
-      <br/><br/><br/><br/>
-        <div className="marigold-wrapper">
-          <h1 className="dahlia-title">CONTACT US</h1>
+    <div className="luxury-support">
+      {/* Hero Header */}
+      <header className="lux-hero">
+        <div className="lux-overlay"></div>
+        <div className="lux-content">
+          <h1 className="lux-title">We're Here for You</h1>
+          <p className="lux-subtitle">Premium Support • 24×7 • Always Personal</p>
         </div>
+        <div className="glow-line"></div>
       </header>
 
-      {/* Contact Cards */}
-      <section className="lilac-contact-zone">
-        <div className="orchid-grid">
-          <div className="tulip-card">
-            <div className="poppy-icon">Phone</div>
-            <h3 className="camellia-heading">SUPPORT FOR ONLINE PURCHASE</h3>
-            <p className="iris-number">8125505568</p>
-            <p>7 DAYS A WEEK</p>
-            <p>24×7</p>
-          </div>
+      {/* Contact Cards - Luxury Glassmorphism */}
+      <section className="lux-contact-section">
+        <div className="lux-container">
+          <div className="lux-grid">
+            <div className="lux-card glass">
+              <div className="icon">☎</div>
+              <h3>Call Our VIP Line</h3>
+              <p className="highlight">+91 81255 05568</p>
+              <p>24×7 • Dedicated Support</p>
+            </div>
 
-          <div className="tulip-card">
-            <div className="poppy-icon">Envelope</div>
-            <h3 className="camellia-heading">FOR ONLINE QUERIES</h3>
-            <p className="peony-chat">CHAT WITH US Chat</p>
-          </div>
+            <div className="lux-card glass">
+              <div className="icon">✉</div>
+              <h3>Live Chat with Us</h3>
+              <p className="highlight">Average response: 8 seconds</p>
+              <button className="chat-btn">Start Chat Now</button>
+            </div>
 
-          <div className="tulip-card">
-            <h3 className="camellia-heading">FOR STORE RELATED QUERIES</h3>
-            <p className="zinnia-highlight">CONTACT NUMBER: 8125505568</p>
-            <p className="freesia-email">
-              <a href="mailto:theedrip.co@gmail.com">Theedrip.co@gmail.com</a>
-            </p>
-          </div>
+            <div className="lux-card glass">
+              <div className="icon">✈</div>
+              <h3>Store & Delivery Queries</h3>
+              <p className="highlight">theedrip.co@gmail.com</p>
+              <p>Expect reply within 1 hour</p>
+            </div>
 
-          <div className="tulip-card">
-            <h3 className="camellia-heading">FOR GRIEVANCE OFFICER DETAILS</h3>
-            <p><a href="mailto:theedrip.co@gmail.com" className="begonia-link">PLEASE CLICK HERE</a></p>
+            <div className="lux-card glass gold-border">
+              <div className="icon">⭐</div>
+              <h3>Grievance Officer</h3>
+              <a href="mailto:grievance@theedrip.co" className="gold-link">Contact Directly →</a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Help Section */}
-      <section className="magnolia-help">
-        <h2 className="hydrangea-title">WHAT CAN WE HELP YOU WITH TODAY?</h2>
-        <div className="azalea-dropdown-wrapper">
-          <select className="wisteria-select">
-            <option>Please select any query</option>
-          </select>
-        </div>
-      </section>
+      {/* Quick Help Categories + FAQ */}
+      <section className="lux-faq-section">
+        <div className="lux-container">
+          <h2 className="section-title">How Can We Assist You Today?</h2>
 
-      {/* Quick Support */}
-      <section className="cherryblossom-support">
-        <h2 className="anemone-title">QUICK SUPPORT</h2>
-
-        <div className="gardenia-layout">
-          {/* Sidebar */}
-          <div className="petunia-sidebar">
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                className={`geranium-btn ${activeCategory === cat.id ? 'active-geranium' : ''}`}
-                onClick={() => setActiveCategory(cat.id)}
-              >
-                <span className="chrysanthemum-icon">{cat.icon}</span>
-                <span className="gladiolus-label">{cat.name}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* FAQ */}
-          <div className="clematis-faq">
-            {faqItems.map(item => (
-              <div key={item.id} className="daffodil-item">
+          <div className="faq-layout">
+            {/* Sidebar */}
+            <aside className="category-sidebar">
+              {categories.map(cat => (
                 <button
-                  className="snapdragon-question"
-                  onClick={() => toggleItem(item.id)}
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
                 >
-                  <span>{item.question}</span>
-                  <span className={`alyssum-arrow ${expandedItems[item.id] ? 'open-arrow' : ''}`}>Down Arrow</span>
+                  <span className="cat-icon">{cat.icon}</span>
+                  <span>{cat.name}</span>
+                  {activeCategory === cat.id && <span className="active-bar"></span>}
                 </button>
-                {expandedItems[item.id] && (
-                  <div className="phlox-answer">
-                    {item.answer}
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
+            </aside>
+
+            {/* FAQ List */}
+            <div className="faq-list">
+              {currentFaqs.map(item => (
+                <div key={item.id} className="faq-item">
+                  <button
+                    className="faq-question"
+                    onClick={() => toggleFaq(item.id)}
+                  >
+                    <span>{item.q}</span>
+                    <span className={`arrow ${expandedItems[item.id] ? 'rotated' : ''}`}>↓</span>
+                  </button>
+                  {expandedItems[item.id] && (
+                    <div className="faq-answer animate-in">
+                      <p>{item.a}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-       
+      {/* Floating Chat Bubble */}
+      <div className="floating-chat">
+        <div className="pulse"></div>
+        <span>💬</span>
+        <span className="chat-text">Need Help?</span>
+      </div>
     </div>
   );
 };
