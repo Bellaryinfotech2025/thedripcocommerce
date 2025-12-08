@@ -68,7 +68,7 @@ const SupportPage = () => {
               <div className="icon">✉</div>
               <h3>Live Chat with Us</h3>
               <p className="highlight">Average response: 8 seconds</p>
-              <button className="chat-btn">Start Chat Now</button>
+               
             </div>
 
             <div className="lux-card glass">
@@ -81,7 +81,7 @@ const SupportPage = () => {
             <div className="lux-card glass gold-border">
               <div className="icon">⭐</div>
               <h3>Grievance Officer</h3>
-              <a href="mailto:grievance@theedrip.co" className="gold-link">Contact Directly →</a>
+              <a href="mailto:theedrip.co@gmail.com" className="gold-link">Contact Directly →</a>
             </div>
           </div>
         </div>
@@ -131,12 +131,7 @@ const SupportPage = () => {
         </div>
       </section>
 
-      {/* Floating Chat Bubble */}
-      <div className="floating-chat">
-        <div className="pulse"></div>
-        <span>💬</span>
-        <span className="chat-text">Need Help?</span>
-      </div>
+       
     </div>
   );
 };
