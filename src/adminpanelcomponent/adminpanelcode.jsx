@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../adminpanelcomponent/adminpanel.css';
+import API_NATURAL from '../config/api';
 
-const API_BASE = "http://195.35.45.56:4646";
+ 
 
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
@@ -39,7 +40,7 @@ const AdminPanel = () => {
   // Fetch all products
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/products/all`);
+      const res = await fetch(`${API_NATURAL.API_ECO}/api/products/all`);
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -81,8 +82,8 @@ const AdminPanel = () => {
 
     try {
       let url = editingProduct
-        ? `${API_BASE}/api/products/update-image/${editingProduct.id}`
-        : `${API_BASE}/api/products/create`;
+        ? `${API_NATURAL.API_ECO}/api/products/update-image/${editingProduct.id}`
+        : `${API_NATURAL.API_ECO}/api/products/create`;
 
       let method = editingProduct ? "PUT" : "POST";
 
@@ -131,7 +132,7 @@ const AdminPanel = () => {
     if (!deleteId) return;
 
     try {
-      await fetch(`${API_BASE}/api/products/${deleteId}`, { method: "DELETE" });
+      await fetch(`${API_NATURAL.API_ECO}/api/products/${deleteId}`, { method: "DELETE" });
       alert("Product deleted!");
       fetchProducts();
     } catch (err) {
@@ -266,7 +267,7 @@ const AdminPanel = () => {
                 <tr key={p.id}>
                   <td>
                     {p.imageUrl ? (
-                      <img src={`${API_BASE}${p.imageUrl}`} alt={p.title} style={{ width: 60, height: 60, objectFit: "cover" }} />
+                      <img src={`${API_NATURAL.API_ECO}${p.imageUrl}`} alt={p.title} style={{ width: 60, height: 60, objectFit: "cover" }} />
                     ) : "No Image"}
                   </td>
                   <td>{p.title}</td>

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:4646/api"
+const API_BASE = "http://195.35.45.56:4646/api"
 
 export const createRazorpayOrder = async (orderDetails) => {
   try {

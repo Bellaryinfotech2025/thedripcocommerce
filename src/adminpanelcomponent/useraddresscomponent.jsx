@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../adminpanelcomponent/useraddress.css';
-
-const address_api = "http://195.35.45.56:4646";
+import API_NATURAL from '../config/api';
+ 
 
 const UserAddresses = () => {
     const [addresses, setAddresses] = useState([]);
@@ -18,7 +18,7 @@ const UserAddresses = () => {
 
     const fetchAddresses = async () => {
         try {
-            const response = await axios.get(`${address_api}/api/addresses/getAddressAll`);
+            const response = await axios.get(`${API_NATURAL.API_URL}/api/addresses/getAddressAll`);
             setAddresses(response.data);
             setFiltered(response.data);
             setLoading(false);

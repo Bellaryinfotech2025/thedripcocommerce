@@ -1,6 +1,7 @@
 // PaymentDetails.jsx
 import React, { useState, useEffect } from "react";
 import "../adminpanelcomponent/paymentdesign.css";
+import API_NATURAL from "../config/api";
 
 const PaymentDetails = () => {
   const [payments, setPayments] = useState([]);
@@ -20,7 +21,7 @@ const PaymentDetails = () => {
   };
 
   useEffect(() => {
-    fetch("http://195.35.45.56:4646/api/payments/all")
+    fetch(`${API_NATURAL.API_URL}/api/payments/all`)
       .then((response) => {
         if (!response.ok) throw new Error("Failed to fetch payments");
         return response.json();

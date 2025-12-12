@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../adminpanelcomponent/productiddesign.css';
+import API_NATURAL from '../config/api';
 
-const product_api_url = "http://195.35.45.56:4646";
+ 
 
 const ProductIdAdminData = () => {
     const [products, setProducts] = useState([]);
@@ -18,7 +19,7 @@ const ProductIdAdminData = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get(`${product_api_url}/api/products/all`);
+            const res = await axios.get(`${API_NATURAL.API_URL}/api/products/all`);
             setProducts(res.data);
             setFiltered(res.data);
             setLoading(false);
