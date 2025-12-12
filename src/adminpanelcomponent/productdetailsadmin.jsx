@@ -3,8 +3,6 @@ import axios from 'axios';
 import '../adminpanelcomponent/productiddesign.css';
 import API_NATURAL from '../config/api';
 
- 
-
 const ProductIdAdminData = () => {
     const [products, setProducts] = useState([]);
     const [filtered, setFiltered] = useState([]);
@@ -19,27 +17,29 @@ const ProductIdAdminData = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get(`${API_NATURAL.API_URL}/api/products/all`);
-            setProducts(res.data);
-            setFiltered(res.data);
+            const res = await axios.get(`${API_NATURAL.API_ECO}/api/products/all`);
+            const data = Array.isArray(res.data) ? res.data : [];
+            setProducts(data);
+            setFiltered(data);
             setLoading(false);
         } catch (err) {
-            setError('Failed to load products. Is backend running?');
+            console.error("Fetch error:", err);
+            setError('Failed to load products. Check if backend is running or console for details.');
+            setProducts([]);
+            setFiltered([]);
             setLoading(false);
-            console.error(err);
         }
     };
 
-    // Search across all fields
     useEffect(() => {
         const term = search.toLowerCase();
         const result = products.filter(p =>
-            p.productId.toLowerCase().includes(term) ||
-            p.title.toLowerCase().includes(term) ||
+            p.productId?.toLowerCase().includes(term) ||
+            p.title?.toLowerCase().includes(term) ||
             (p.category && p.category.toLowerCase().includes(term)) ||
-            p.price.toString().includes(term) ||
-            p.previousPrice.toString().includes(term) ||
-            p.stock.toString().includes(term) ||
+            p.price?.toString().includes(term) ||
+            p.previousPrice?.toString().includes(term) ||
+            p.stock?.toString().includes(term) ||
             (p.size && p.size.toLowerCase().includes(term)) ||
             (p.description && p.description.toLowerCase().includes(term))
         );
@@ -51,7 +51,7 @@ const ProductIdAdminData = () => {
 
         setDeletingId(productId);
         try {
-            await axios.delete(`${product_api_url}/api/products/deleteByProductId/${productId}`);
+            await axios.delete(`${API_NATURAL.API_ECO}/api/products/deleteByProductId/${productId}`);
             setProducts(prev => prev.filter(p => p.productId !== productId));
             setFiltered(prev => prev.filter(p => p.productId !== productId));
             alert("Product deleted successfully!");
@@ -68,11 +68,10 @@ const ProductIdAdminData = () => {
 
     return (
         <div className="prod-container">
-        <br/><br/><br/>
+            <br/><br/><br/>
             <h2 className="prod-title">All Products - Admin Panel</h2>
             <p className="prod-subtitle">Manage and monitor all products in the store</p>
 
-            {/* Search */}
             <div className="prod-search-box">
                 <input
                     type="text"
@@ -84,7 +83,6 @@ const ProductIdAdminData = () => {
                 <span className="prod-search-icon">Search</span>
             </div>
 
-            {/* Table */}
             <div className="prod-table-wrapper">
                 <table className="prod-table">
                     <thead>
@@ -115,7 +113,7 @@ const ProductIdAdminData = () => {
                                     <td>
                                         {p.imageUrl ? (
                                             <img
-                                                src={`${product_api_url}${p.imageUrl}`}
+                                                src={`${API_NATURAL.API_ECO}${p.imageUrl}`}
                                                 alt={p.title}
                                                 className="prod-image"
                                                 onError={(e) => e.target.src = "/placeholder.jpg"}
@@ -127,8 +125,8 @@ const ProductIdAdminData = () => {
                                     <td><strong className="prod-id">{p.productId}</strong></td>
                                     <td className="prod-title-cell">{p.title}</td>
                                     <td>{p.category || "-"}</td>
-                                    <td><strong>₹{Number(p.price).toFixed(2)}</strong></td>
-                                    <td><del>₹{Number(p.previousPrice).toFixed(2)}</del></td>
+                                    <td><strong>₹{Number(p.price || 0).toFixed(2)}</strong></td>
+                                    <td><del>₹{Number(p.previousPrice || 0).toFixed(2)}</del></td>
                                     <td>
                                         <span className={`prod-stock ${p.stock > 0 ? 'in-stock' : 'out-stock'}`}>
                                             {p.stock}

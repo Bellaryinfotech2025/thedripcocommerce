@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../adminpanelcomponent/useraddress.css';
 import API_NATURAL from '../config/api';
- 
 
 const UserAddresses = () => {
     const [addresses, setAddresses] = useState([]);
@@ -11,52 +10,47 @@ const UserAddresses = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Fetch all addresses on mount
     useEffect(() => {
         fetchAddresses();
     }, []);
 
     const fetchAddresses = async () => {
         try {
-            const response = await axios.get(`${API_NATURAL.API_URL}/api/addresses/getAddressAll`);
-            setAddresses(response.data);
-            setFiltered(response.data);
+            const response = await axios.get(`${API_NATURAL.API_ECO}/api/addresses/getAddressAll`);
+            const data = Array.isArray(response.data) ? response.data : [];
+            setAddresses(data);
+            setFiltered(data);
             setLoading(false);
         } catch (err) {
-            setError('Failed to load addresses. Please try again later.');
+            console.error("Fetch error:", err);
+            setError('Failed to load addresses. Check console or backend status.');
+            setAddresses([]);
+            setFiltered([]);
             setLoading(false);
-            console.error(err);
         }
     };
 
-    // Search functionality
     useEffect(() => {
         const term = search.toLowerCase();
         const result = addresses.filter(addr =>
-            addr.user.userId.toLowerCase().includes(term) ||
-            addr.addressId.toLowerCase().includes(term) ||
+            addr.user?.userId?.toLowerCase().includes(term) ||
+            addr.addressId?.toLowerCase().includes(term) ||
             addr.houseNo?.toLowerCase().includes(term) ||
             addr.city?.toLowerCase().includes(term) ||
             addr.state?.toLowerCase().includes(term) ||
-            addr.pincode?.includes(term)
+            addr.pincode?.toString().includes(term)
         );
         setFiltered(result);
     }, [search, addresses]);
 
-    if (loading) {
-        return <div className="loading">Loading addresses...</div>;
-    }
-
-    if (error) {
-        return <div className="error">{error}</div>;
-    }
+    if (loading) return <div className="loading">Loading addresses...</div>;
+    if (error) return <div className="error">{error}</div>;
 
     return (
         <div className="address-container">
-        <br/><br/><br/>
+            <br/><br/><br/>
             <h2 className="title">User Addresses</h2>
 
-            {/* Search Bar */}
             <div className="search-box">
                 <input
                     type="text"
@@ -68,7 +62,6 @@ const UserAddresses = () => {
                 <span className="search-icon">Search</span>
             </div>
 
-            {/* Table */}
             <div className="table-wrapper">
                 <table className="address-table">
                     <thead>
@@ -96,13 +89,13 @@ const UserAddresses = () => {
                             filtered.map((addr) => (
                                 <tr key={addr.id} className={addr.isDefault ? 'default-row' : ''}>
                                     <td><strong>{addr.addressId}</strong></td>
-                                    <td>{addr.user.userId}</td>
+                                    <td>{addr.user?.userId || '-'}</td>
                                     <td>{addr.houseNo || '-'}</td>
                                     <td>{addr.street || '-'}</td>
                                     <td>{addr.locality || '-'}</td>
-                                    <td>{addr.city}</td>
-                                    <td>{addr.state}</td>
-                                    <td>{addr.pincode}</td>
+                                    <td>{addr.city || '-'}</td>
+                                    <td>{addr.state || '-'}</td>
+                                    <td>{addr.pincode || '-'}</td>
                                     <td>
                                         {addr.isDefault ? (
                                             <span className="badge default">Default</span>

@@ -1,5 +1,5 @@
-// PaymentDetails.jsx
 import React, { useState, useEffect } from "react";
+import axios from "axios";  
 import "../adminpanelcomponent/paymentdesign.css";
 import API_NATURAL from "../config/api";
 
@@ -10,55 +10,51 @@ const PaymentDetails = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Load checkbox status from localStorage
   const loadCheckboxState = (paymentId, key) => {
     return localStorage.getItem(`${paymentId}_${key}`) === "true";
   };
 
-  // Save checkbox status in localStorage
   const saveCheckboxState = (paymentId, key, value) => {
     localStorage.setItem(`${paymentId}_${key}`, value);
   };
 
   useEffect(() => {
-    fetch(`${API_NATURAL.API_URL}/api/payments/all`)
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to fetch payments");
-        return response.json();
-      })
-      .then((data) => {
-        // Add saved checkbox values into each payment object
+    const fetchPayments = async () => {
+      try {
+        const res = await axios.get(`${API_NATURAL.API_ECO}/api/payments/all`);
+        const data = Array.isArray(res.data) ? res.data : [];
         const updatedData = data.map((payment) => ({
           ...payment,
           orderPlaced: loadCheckboxState(payment.id, "orderPlaced"),
           orderPacked: loadCheckboxState(payment.id, "orderPacked"),
         }));
-
         setPayments(updatedData);
         setFilteredPayments(updatedData);
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
+      } catch (err) {
+        console.error("Fetch payments error:", err);
+        setError("Failed to load payments. Check backend or network console.");
+        setPayments([]);
+        setFilteredPayments([]);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchPayments();
   }, []);
 
-  // Search Filter
   useEffect(() => {
-    const lower = searchTerm.toLowerCase();
-
     if (searchTerm.trim() === "") {
       setFilteredPayments(payments);
       return;
     }
 
+    const lower = searchTerm.toLowerCase();
     const filtered = payments.filter((p) =>
       Object.values(p).some(
-        (value) => value && value.toString().toLowerCase().includes(lower)
+        (value) => value != null && value.toString().toLowerCase().includes(lower)
       )
     );
-
     setFilteredPayments(filtered);
   }, [searchTerm, payments]);
 
@@ -71,7 +67,6 @@ const PaymentDetails = () => {
 
       <h1 className="paymentDash-heading">Payment Details Dashboard</h1>
 
-      {/* Search Bar */}
       <div className="paymentDash-searchSection">
         <input
           type="text"
@@ -102,87 +97,82 @@ const PaymentDetails = () => {
               <th>Phone</th>
               <th>Signature</th>
               <th>Created At</th>
-
-              {/* New Columns */}
               <th>Order Placed</th>
               <th>Order Packed</th>
             </tr>
           </thead>
 
           <tbody>
-            {filteredPayments.map((payment) => (
-              <tr key={payment.id}>
-                <td>{payment.id}</td>
-                <td>{payment.paymentId}</td>
-                <td>{payment.orderId}</td>
-                <td>{payment.razorpayOrderId}</td>
-                <td>{payment.userId}</td>
-                <td>{payment.productId}</td>
-                <td>{payment.bankRrn}</td>
-                <td>₹{payment.amount}</td>
-                <td>{payment.currency}</td>
-
-                {/* Status Tag */}
-                <td>
-                  <span
-                    className={
-                      payment.status === "paid"
-                        ? "tag-paid"
-                        : payment.status === "failed"
-                        ? "tag-failed"
-                        : "tag-pending"
-                    }
-                  >
-                    {payment.status}
-                  </span>
-                </td>
-
-                <td>{payment.paymentMethod}</td>
-                <td>{payment.customerName}</td>
-                <td>{payment.customerEmail}</td>
-                <td>{payment.customerPhone}</td>
-                <td>{payment.signature}</td>
-                <td>{payment.createdAt}</td>
-
-                {/* Order Placed Checkbox */}
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={payment.orderPlaced || false}
-                    onChange={(e) => {
-                      const value = e.target.checked;
-
-                      saveCheckboxState(payment.id, "orderPlaced", value);
-
-                      setPayments((prev) =>
-                        prev.map((p) =>
-                          p.id === payment.id ? { ...p, orderPlaced: value } : p
-                        )
-                      );
-                    }}
-                  />
-                </td>
-
-                {/* Order Packed Checkbox */}
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={payment.orderPacked || false}
-                    onChange={(e) => {
-                      const value = e.target.checked;
-
-                      saveCheckboxState(payment.id, "orderPacked", value);
-
-                      setPayments((prev) =>
-                        prev.map((p) =>
-                          p.id === payment.id ? { ...p, orderPacked: value } : p
-                        )
-                      );
-                    }}
-                  />
-                </td>
+            {filteredPayments.length === 0 ? (
+              <tr>
+                <td colSpan="18" style={{ textAlign: "center" }}>No payments found</td>
               </tr>
-            ))}
+            ) : (
+              filteredPayments.map((payment) => (
+                <tr key={payment.id}>
+                  <td>{payment.id}</td>
+                  <td>{payment.paymentId}</td>
+                  <td>{payment.orderId}</td>
+                  <td>{payment.razorpayOrderId}</td>
+                  <td>{payment.userId}</td>
+                  <td>{payment.productId}</td>
+                  <td>{payment.bankRrn}</td>
+                  <td>₹{payment.amount}</td>
+                  <td>{payment.currency}</td>
+                  <td>
+                    <span
+                      className={
+                        payment.status === "paid"
+                          ? "tag-paid"
+                          : payment.status === "failed"
+                          ? "tag-failed"
+                          : "tag-pending"
+                      }
+                    >
+                      {payment.status}
+                    </span>
+                  </td>
+                  <td>{payment.paymentMethod}</td>
+                  <td>{payment.customerName}</td>
+                  <td>{payment.customerEmail}</td>
+                  <td>{payment.customerPhone}</td>
+                  <td>{payment.signature}</td>
+                  <td>{new Date(payment.createdAt).toLocaleDateString()}</td>
+
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={payment.orderPlaced || false}
+                      onChange={(e) => {
+                        const value = e.target.checked;
+                        saveCheckboxState(payment.id, "orderPlaced", value);
+                        setPayments((prev) =>
+                          prev.map((p) =>
+                            p.id === payment.id ? { ...p, orderPlaced: value } : p
+                          )
+                        );
+                      }}
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={payment.orderPacked || false}
+                      onChange={(e) => {
+                        const value = e.target.checked;
+                        saveCheckboxState(payment.id, "orderPacked", value);
+                        setPayments((prev) =>
+                          prev.map((p) =>
+                            p.id === payment.id ? { ...p, orderPacked: value } : p
+                          )
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
