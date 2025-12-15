@@ -9,11 +9,11 @@ import '../Goat Css/Carousel.css';
 
 const MainContent = () => {
   const slides = [
-    { image: carousel1, btnText: "SHOP NOW" },
-    { image: carousel2, btnText: "EXPLORE NOW" },
-    { image: carousel3, btnText: "VIEW RANGE" },
-    { image: carousel4, btnText: "DISCOVER MORE" },
-    { image: carousel5, btnText: "SHOP COLLECTION" }
+    { image: carousel1},
+    { image: carousel2 },
+    { image: carousel3 },
+    { image: carousel4 },
+    { image: carousel5 }
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -41,7 +41,7 @@ const MainContent = () => {
           >
             <div className="banner-content">
               <h1 className="banner-heading">{slide.heading}</h1>
-              <button className="shop-now-btn">{slide.btnText}</button>
+               
             </div>
             <img src={slide.image} alt={slide.heading} className="banner-image" />
           </div>
