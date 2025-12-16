@@ -1,5 +1,4 @@
-// API Service for connecting to Spring Boot backend
-const API_BASE = "http://195.35.45.56:4646/api"
+ const API_BASE = "https://api.thedripco.store/api"
 
 // ============ LOCAL STORAGE KEYS ============
 const LOCAL_ADDRESSES_KEY = "dripco_saved_addresses"

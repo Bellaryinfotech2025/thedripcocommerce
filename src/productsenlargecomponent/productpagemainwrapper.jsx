@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DripLoginPopup from "../usercredentialscomponent/loginpopup.jsx";
 import { getUserIdFromCookie, setUserLoggedIn } from "../usercredentialscomponent/logincookieauth.js";
 
-const API_BASE = "http://195.35.45.56:4646";
+const API_BASE = "https://api.thedripco.store";
 
 const Productpagemainwrapper = () => {
   const location = useLocation();

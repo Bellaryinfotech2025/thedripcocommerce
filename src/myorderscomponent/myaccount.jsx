@@ -11,7 +11,7 @@ import {
   updateAddress,
 } from "../usercredentialscomponent/apiservice"
 
-const API_BASE = "http://195.35.45.56:4646"
+const API_BASE = "https://api.thedripco.store"
 
 const MyAccountPage = () => {
   const navigate = useNavigate()

@@ -1,4 +1,4 @@
-const API_BASE = "http://195.35.45.56:4646/api"
+const API_BASE = "https://api.thedripco.store/api"
 
 export const createRazorpayOrder = async (orderDetails) => {
   try {

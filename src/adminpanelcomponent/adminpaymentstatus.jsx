@@ -17,7 +17,7 @@ const AdminDashboardUI = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await fetch("http://195.35.45.56:4646/api/payments/all", {
+        const response = await fetch("https://api.thedripco.store/api/payments/all", {
           credentials: "include", // Important for session/auth if needed
         });
 

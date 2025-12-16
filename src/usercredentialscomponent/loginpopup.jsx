@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { FaTimes, FaUser, FaPhone } from "react-icons/fa"
 
-const API_BASE = "http://195.35.45.56:4646/api/v2"
+const API_BASE = "https://api.thedripco.store/api/v2"
 
 const DripLoginPopup = ({ onClose, onRegisterSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)

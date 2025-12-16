@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../adminpanelcomponent/userordersdesign.css";
 
-const order_api_url = "http://195.35.45.56:4646";
+const order_api_url = "https://api.thedripco.store";
 
 const UserOrders = () => {
     const [orders, setOrders] = useState([]);
