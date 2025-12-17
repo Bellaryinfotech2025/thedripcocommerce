@@ -30,7 +30,7 @@ const AdminPanel = () => {
   // Login
   const handleLogin = (e) => {
     e.preventDefault();
-    if (loginPassword === "dripcoshanawazadmin11") { // Change this or make secure later
+    if (loginPassword === "admin123") { // Change this or make secure later
       setIsLoggedIn(true);
     } else {
       alert("Wrong password!");
