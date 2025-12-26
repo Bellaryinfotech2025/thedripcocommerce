@@ -118,14 +118,17 @@ const Navbar = ({ toggleSidebar }) => {
           </div>
           <nav className="nav-links">
             <ul>
+             <Link to="/"> 
               <li>
-                <a href="#">PRODUCTS</a>
+                PRODUCTS
+              </li>
+              </Link>
+              
+              <li>
+                <Link to="/">NEW ARRIVALS</Link>
               </li>
               <li>
-                <Link to="/new-arrivals">NEW ARRIVALS</Link>
-              </li>
-              <li>
-                <a href="#">SPECIAL SIZES</a>
+                 <Link to="/">SPECIAL SIZES</Link>
               </li>
             </ul>
           </nav>
