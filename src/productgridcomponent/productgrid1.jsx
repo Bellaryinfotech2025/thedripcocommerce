@@ -33,7 +33,7 @@ const Productlayout = () => {
   const products = [
     {
       id: 1,
-      name: "SAIYAN BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
+      name: "SAIYAN BLACK UNISEX STRAIGHT FIT BAGGY",
       currentPrice: "799.00",
       originalPrice: "1449.00",
       discount: 50,
@@ -47,7 +47,7 @@ const Productlayout = () => {
     },
     {
       id: 2,
-      name: "TYPHOON BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
+      name: "TYPHOON BLACK UNISEX STRAIGHT FIT BAGGY ",
       currentPrice: "1499.00",
       originalPrice: "2999.00",
       discount: 50,
@@ -61,7 +61,7 @@ const Productlayout = () => {
     },
     {
       id: 3,
-      name: "CARNATION BLACK UNISEX STRAIGHT FIT BAGGY PANTS",
+      name: "CARNATION BLACK UNISEX STRAIGHT FIT BAGGY",
       currentPrice: "699.00",
       originalPrice: "1,319.00",
       discount: 50,
@@ -75,7 +75,7 @@ const Productlayout = () => {
     },
     {
       id: 4,
-      name: "MUTATION UNISEX STRAIGHT FIT BAGGY PANTS",
+      name: "MUTATION UNISEX STRAIGHT FIT BAGGY",
       currentPrice: "1499.00",
       originalPrice: "2999.00",
       discount: 50,

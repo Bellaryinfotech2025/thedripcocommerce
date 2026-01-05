@@ -1,6 +1,6 @@
 // components/MainContent.js
 import React, { useState, useEffect } from 'react';
-import carousel1 from '../assets/carouselnewone.png';
+import carousel1 from '../assets/landingimage.jpg';
 import carousel2 from '../assets/carouselnew2.png';
 import carousel3 from '../assets/carouselnew3.png';
 import carousel4 from '../assets/carouselnew4.png';

@@ -68,7 +68,7 @@ function App() {
                     <br /><br /><br /><br /><br />
                     <MainContent />
                     <Productlayout />
-                    <Designated />
+                     
                     <Productlayout2 />
                     <Productlayout3 />
                     <ProductlayoutMain />
